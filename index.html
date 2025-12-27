@@ -1,0 +1,132 @@
+<div style="max-width:1100px;margin:auto;font-family:Arial,Helvetica,sans-serif;">
+  <div style="padding:18px;border-radius:16px;background:#ffffff;">
+    <h2 style="margin:0 0 6px 0;">Menú Digital – FEE-KA 104</h2>
+    <p style="margin:0 0 14px 0;opacity:.8;">
+      Explora, antoja y disfruta ☕🍔
+    </p>
+
+    <input id="q" placeholder="Buscar… (ej: capuccino, hamburguesa, limonada)"
+      style="width:100%;padding:12px 14px;border:1px solid #ddd;border-radius:12px;outline:none;margin-bottom:14px;" />
+
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px;">
+      <button class="cat" data-cat="Todos">Todos</button>
+      <button class="cat" data-cat="Desayunos">🥚 Desayunos</button>
+      <button class="cat" data-cat="Café">☕ Café</button>
+      <button class="cat" data-cat="Frías Café">🧊 Café Frío</button>
+      <button class="cat" data-cat="Calientes">🍫 Calientes</button>
+      <button class="cat" data-cat="Frías">🧃 Bebidas Frías</button>
+      <button class="cat" data-cat="Pastelería">🍰 Pastelería</button>
+      <button class="cat" data-cat="Platos">🍔 Platos</button>
+      <button class="cat" data-cat="Cocteles">🍹 Cocteles</button>
+      <button class="cat" data-cat="Cervezas">🍺 Cervezas</button>
+      <button class="cat" data-cat="Licores">🥃 Licores</button>
+      <button class="cat" data-cat="Kids">🧒 Kids</button>
+    </div>
+
+    <div id="list" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;"></div>
+  </div>
+</div>
+
+<script>
+const items = [
+
+/* DESAYUNOS */
+{cat:"Desayunos",name:"Tradicional",desc:"Huevos al gusto, café americano, tostadas.",price:"$10.000"},
+{cat:"Desayunos",name:"Campesino",desc:"Huevos al gusto, papa, café de antaño y pan de maíz.",price:"$13.000"},
+{cat:"Desayunos",name:"Huevos Rancheros",desc:"Tocineta, salchicha, huevos, guacamole, café y pan de maíz.",price:"$15.000"},
+{cat:"Desayunos",name:"FEE-KA Pancakes",desc:"2 pancakes, huevos revueltos, banano, miel o mermelada y café.",price:"$15.000"},
+
+/* CAFÉ */
+{cat:"Café",name:"Espresso",desc:"Intenso y aromático.",price:"$5.000"},
+{cat:"Café",name:"Americano",desc:"Suave y equilibrado.",price:"$5.000"},
+{cat:"Café",name:"Macchiato",desc:"Espresso con nube de leche.",price:"$5.000"},
+{cat:"Café",name:"Latte",desc:"Espresso con leche vaporizada.",price:"$7.000"},
+{cat:"Café",name:"Capuccino",desc:"Equilibrado y cremoso.",price:"$7.000"},
+{cat:"Café",name:"Capuccino Vienés",desc:"Con crema batida.",price:"$8.000"},
+{cat:"Café",name:"Capuccino con Esencia",desc:"Vainilla, amaretto, macadamia, avellana o caramelo.",price:"$11.000"},
+{cat:"Café",name:"Café Antaño",desc:"Panela y especias tradicionales.",price:"$6.000"},
+
+/* CAFÉ FRÍO */
+{cat:"Frías Café",name:"Latte Frío",desc:"Suave y refrescante.",price:"$8.000"},
+{cat:"Frías Café",name:"Orange Coffee",desc:"Espresso con jugo de naranja.",price:"$9.000"},
+{cat:"Frías Café",name:"Limonada de Café",desc:"Limón con café.",price:"$10.000"},
+{cat:"Frías Café",name:"Affogato",desc:"Helado de vainilla con shot de café.",price:"$11.000"},
+
+/* BEBIDAS CALIENTES */
+{cat:"Calientes",name:"Chocolate Clásico",desc:"",price:"$9.000"},
+{cat:"Calientes",name:"Chocolate FEE-KA",desc:"",price:"$11.000"},
+{cat:"Calientes",name:"Milo",desc:"",price:"$9.000"},
+{cat:"Calientes",name:"Té",desc:"",price:"$6.000"},
+
+/* BEBIDAS FRÍAS */
+{cat:"Frías",name:"Limonada Natural",desc:"",price:"$7.000"},
+{cat:"Frías",name:"Limonada de Coco",desc:"",price:"$10.000"},
+{cat:"Frías",name:"Jugo Natural en Agua",desc:"",price:"$7.000"},
+{cat:"Frías",name:"Malteada",desc:"Fresa, vainilla u Oreo.",price:"$13.000"},
+
+/* PASTELERÍA */
+{cat:"Pastelería",name:"Rollito de Canela",desc:"",price:"$8.000"},
+{cat:"Pastelería",name:"Croissant Relleno",desc:"Pistacho, frutos rojos, chocolate o queso.",price:"$8.000"},
+{cat:"Pastelería",name:"Porción de Torta Red Velvet",desc:"",price:"$11.000"},
+
+/* PLATOS */
+{cat:"Platos",name:"Hamburguesa Tradicional",desc:"Carne al barril, queso y papas.",price:"$18.000"},
+{cat:"Platos",name:"Hamburguesa al Barril",desc:"Tocineta, café, queso doble crema y papas.",price:"$24.000"},
+{cat:"Platos",name:"Nachos al Barril",desc:"Carnes, frijol y quesos.",price:"$23.000"},
+{cat:"Platos",name:"Salchipapa Gratinada",desc:"Carnes al barril, queso y plátano.",price:"$28.000"},
+
+/* COCTELES */
+{cat:"Cocteles",name:"Mojito de Kiwi",desc:"",price:"$20.000"},
+{cat:"Cocteles",name:"Pantera Rosa",desc:"",price:"$18.000"},
+{cat:"Cocteles",name:"Cuba Libre",desc:"",price:"$15.000"},
+
+/* CERVEZAS */
+{cat:"Cervezas",name:"Club Colombia",desc:"",price:"$10.000"},
+{cat:"Cervezas",name:"Corona",desc:"",price:"$10.000"},
+
+/* LICORES */
+{cat:"Licores",name:"Aguardiente Nariño",desc:"Botella",price:"$120.000"},
+{cat:"Licores",name:"Whisky Red Label",desc:"Botella",price:"$150.000"},
+
+/* KIDS */
+{cat:"Kids",name:"Capuccino Fee-Kids",desc:"",price:"$11.000"},
+{cat:"Kids",name:"Helado Crazy",desc:"Chocolate, gomitas, chantillí y más.",price:"$18.000"}
+
+];
+
+let state={cat:"Todos",q:""};
+const list=document.getElementById("list");
+const q=document.getElementById("q");
+
+function render(){
+  const f=items.filter(x=>{
+    const c=state.cat==="Todos"||x.cat===state.cat;
+    const s=(x.name+x.desc+x.price).toLowerCase();
+    const b=!state.q||s.includes(state.q.toLowerCase());
+    return c&&b;
+  });
+  list.innerHTML=f.map(x=>`
+    <div style="border:1px solid #eee;border-radius:14px;padding:14px;">
+      <div style="display:flex;justify-content:space-between;gap:10px;">
+        <div>
+          <strong>${x.name}</strong>
+          <div style="font-size:12px;opacity:.7">${x.cat}</div>
+        </div>
+        <strong>${x.price}</strong>
+      </div>
+      ${x.desc?`<div style="margin-top:8px;font-size:13px;opacity:.85">${x.desc}</div>`:""}
+    </div>
+  `).join("");
+}
+
+document.querySelectorAll(".cat").forEach(b=>{
+  b.style.padding="10px 14px";
+  b.style.border="1px solid #ddd";
+  b.style.borderRadius="999px";
+  b.style.background="#fff";
+  b.style.cursor="pointer";
+  b.onclick=()=>{state.cat=b.dataset.cat;render();}
+});
+q.oninput=e=>{state.q=e.target.value;render();};
+render();
+</script>
