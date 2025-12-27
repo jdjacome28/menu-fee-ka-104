@@ -1,132 +1,655 @@
-<div style="max-width:1100px;margin:auto;font-family:Arial,Helvetica,sans-serif;">
-  <div style="padding:18px;border-radius:16px;background:#ffffff;">
-    <h2 style="margin:0 0 6px 0;">Menú Digital – FEE-KA 104</h2>
-    <p style="margin:0 0 14px 0;opacity:.8;">
-      Explora, antoja y disfruta ☕🍔
-    </p>
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>FEE-KA 104 · Menú Digital</title>
 
-    <input id="q" placeholder="Buscar… (ej: capuccino, hamburguesa, limonada)"
-      style="width:100%;padding:12px 14px;border:1px solid #ddd;border-radius:12px;outline:none;margin-bottom:14px;" />
+  <!-- Tipografías (puedes quitar si prefieres todo local) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 
-    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px;">
-      <button class="cat" data-cat="Todos">Todos</button>
-      <button class="cat" data-cat="Desayunos">🥚 Desayunos</button>
-      <button class="cat" data-cat="Café">☕ Café</button>
-      <button class="cat" data-cat="Frías Café">🧊 Café Frío</button>
-      <button class="cat" data-cat="Calientes">🍫 Calientes</button>
-      <button class="cat" data-cat="Frías">🧃 Bebidas Frías</button>
-      <button class="cat" data-cat="Pastelería">🍰 Pastelería</button>
-      <button class="cat" data-cat="Platos">🍔 Platos</button>
-      <button class="cat" data-cat="Cocteles">🍹 Cocteles</button>
-      <button class="cat" data-cat="Cervezas">🍺 Cervezas</button>
-      <button class="cat" data-cat="Licores">🥃 Licores</button>
-      <button class="cat" data-cat="Kids">🧒 Kids</button>
+  <style>
+    :root{
+      /* Paleta inspirada en el PDF (beige + vino + café) */
+      --bg:#f7f0e6;          /* crema */
+      --paper:#fffaf3;       /* papel */
+      --wine:#4a2341;        /* vinotinto/morado */
+      --coffee:#6f4e37;      /* café */
+      --ink:#1f2937;         /* texto */
+      --muted:#6b7280;       /* gris */
+      --border:rgba(31,41,55,.10);
+      --shadow:0 12px 30px rgba(0,0,0,.08);
+      --shadow2:0 6px 16px rgba(0,0,0,.08);
+      --radius:18px;
+    }
+
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Helvetica Neue";
+      background:
+        radial-gradient(900px 400px at 10% 0%, rgba(74,35,65,.10), transparent 60%),
+        radial-gradient(900px 420px at 90% 5%, rgba(111,78,55,.10), transparent 60%),
+        var(--bg);
+      color:var(--ink);
+    }
+
+    .wrap{ max-width:1180px; margin:auto; padding:18px; }
+
+    /* Marco botánico suave (sin copiar el arte exacto) */
+    .frame{
+      background: linear-gradient(180deg, rgba(255,250,243,.98), rgba(255,250,243,.95));
+      border:1px solid rgba(74,35,65,.18);
+      border-radius:24px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
+    }
+    .frame::before,
+    .frame::after{
+      content:"";
+      position:absolute;
+      inset:auto;
+      width:240px; height:240px;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(74,35,65,.12), transparent 60%),
+        radial-gradient(circle at 60% 60%, rgba(111,78,55,.12), transparent 60%);
+      filter: blur(0px);
+      opacity:.65;
+      pointer-events:none;
+    }
+    .frame::before{ top:-80px; left:-80px; border-radius: 90px 140px 120px 120px; }
+    .frame::after{ bottom:-90px; right:-90px; border-radius: 140px 120px 90px 120px; }
+
+    /* Topbar sticky */
+    .topbar{
+      position:sticky; top:0; z-index:20;
+      background: rgba(247,240,230,.82);
+      backdrop-filter: blur(10px);
+      border-bottom:1px solid rgba(31,41,55,.08);
+    }
+
+    .header{
+      display:flex; gap:16px; align-items:center; justify-content:space-between; flex-wrap:wrap;
+      padding:16px 18px 12px 18px;
+    }
+
+    .brand{
+      display:flex; gap:12px; align-items:center; min-width:260px;
+    }
+
+    /* Logo (imagen real si existe, si no: tipográfico) */
+    .logoImg{
+      width:54px; height:54px;
+      border-radius:16px;
+      background: linear-gradient(145deg, rgba(74,35,65,.22), rgba(111,78,55,.18));
+      border:1px solid rgba(74,35,65,.20);
+      box-shadow: var(--shadow2);
+      display:flex; align-items:center; justify-content:center;
+      overflow:hidden;
+    }
+    .logoImg img{
+      width:100%; height:100%; object-fit:cover; display:block;
+    }
+    .logoFallback{
+      font-family:Cinzel, serif;
+      color:var(--wine);
+      font-weight:700;
+      letter-spacing:.8px;
+      font-size:18px;
+      line-height:1;
+      text-align:center;
+      user-select:none;
+    }
+    .logoFallback small{
+      display:block;
+      font-family:Inter, sans-serif;
+      font-weight:800;
+      font-size:11px;
+      letter-spacing:.2px;
+      color:rgba(111,78,55,.9);
+      margin-top:3px;
+    }
+
+    .titles h1{
+      margin:0;
+      font-family:Cinzel, serif;
+      letter-spacing:.6px;
+      font-size:20px;
+      color:var(--wine);
+    }
+    .titles p{
+      margin:4px 0 0 0;
+      font-size:13px;
+      color:rgba(31,41,55,.72);
+    }
+
+    .searchRow{
+      display:flex; gap:10px; align-items:center; justify-content:flex-end;
+      flex:1; min-width:260px;
+    }
+    .search{
+      width:100%;
+      max-width:560px;
+      padding:12px 14px;
+      border:1px solid rgba(31,41,55,.12);
+      border-radius:14px;
+      outline:none;
+      background:rgba(255,255,255,.9);
+      box-shadow: 0 1px 0 rgba(0,0,0,.02);
+      font-size:14px;
+    }
+    .search:focus{
+      border-color: rgba(74,35,65,.35);
+      box-shadow: 0 0 0 4px rgba(74,35,65,.10);
+    }
+
+    .chips{
+      display:flex; flex-wrap:wrap; gap:8px;
+      padding:0 18px 14px 18px;
+    }
+    .chip{
+      border:1px solid rgba(31,41,55,.12);
+      background: rgba(255,255,255,.88);
+      padding:10px 12px;
+      border-radius:999px;
+      cursor:pointer;
+      font-size:13px;
+      color:rgba(31,41,55,.9);
+      transition: transform .05s ease, background .15s ease, border-color .15s ease;
+      user-select:none;
+      display:flex; gap:8px; align-items:center;
+    }
+    .chip:active{ transform:scale(.98); }
+    .chip:hover{ border-color: rgba(74,35,65,.25); }
+    .chip.active{
+      background: rgba(74,35,65,.92);
+      color:#fff;
+      border-color: rgba(74,35,65,.20);
+    }
+
+    .content{ padding: 14px 18px 18px 18px; }
+
+    .metaRow{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:10px; flex-wrap:wrap;
+      margin-bottom:12px;
+    }
+    .badge{
+      font-size:12px;
+      color:rgba(31,41,55,.72);
+      background: rgba(255,255,255,.75);
+      border:1px solid rgba(31,41,55,.10);
+      padding:8px 10px;
+      border-radius:999px;
+    }
+    .ctaRow{
+      display:flex; gap:8px; align-items:center; flex-wrap:wrap;
+    }
+    .btn{
+      border:1px solid rgba(31,41,55,.12);
+      background: rgba(255,255,255,.85);
+      padding:10px 12px;
+      border-radius:999px;
+      cursor:pointer;
+      font-size:13px;
+      text-decoration:none;
+      color:rgba(31,41,55,.92);
+      display:inline-flex; gap:8px; align-items:center;
+    }
+    .btn:hover{ border-color: rgba(74,35,65,.25); }
+    .btn.primary{
+      background: rgba(111,78,55,.92);
+      color:#fff;
+      border-color: rgba(111,78,55,.18);
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap:14px;
+      padding-bottom:10px;
+    }
+    .card{
+      background: rgba(255,255,255,.90);
+      border:1px solid rgba(31,41,55,.10);
+      border-radius: var(--radius);
+      padding:14px;
+      box-shadow: 0 8px 18px rgba(0,0,0,.06);
+      transition: transform .12s ease, box-shadow .12s ease;
+    }
+    .card:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 12px 26px rgba(0,0,0,.08);
+    }
+
+    .cardTop{ display:flex; justify-content:space-between; gap:12px; align-items:flex-start; }
+    .name{
+      font-weight:800;
+      font-size:15px;
+      margin:0;
+      letter-spacing:.1px;
+      color:rgba(31,41,55,.95);
+    }
+    .cat{
+      margin-top:3px;
+      font-size:12px;
+      color:rgba(31,41,55,.55);
+    }
+    .price{
+      font-weight:900;
+      color: var(--wine);
+      font-size:15px;
+      white-space:nowrap;
+    }
+    .desc{
+      margin-top:10px;
+      font-size:13px;
+      color:rgba(31,41,55,.82);
+      line-height:1.35;
+    }
+    .tagRow{
+      margin-top:10px;
+      display:flex; gap:8px; flex-wrap:wrap;
+    }
+    .tag{
+      font-size:11px;
+      padding:6px 8px;
+      border-radius:999px;
+      background: rgba(74,35,65,.08);
+      color: rgba(74,35,65,.92);
+      border:1px solid rgba(74,35,65,.16);
+    }
+    .tag.coffee{
+      background: rgba(111,78,55,.10);
+      color: rgba(111,78,55,.95);
+      border-color: rgba(111,78,55,.18);
+    }
+
+    .empty{
+      padding:18px;
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.75);
+      border:1px dashed rgba(31,41,55,.16);
+      color:rgba(31,41,55,.70);
+    }
+
+    .footerNote{
+      margin-top:12px;
+      font-size:12px;
+      color:rgba(31,41,55,.62);
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="topbar">
+    <div class="wrap">
+      <div class="frame">
+        <div class="header">
+          <div class="brand">
+            <div class="logoImg" id="logoBox" title="FEE-KA 104">
+              <!-- Si NO pones logo real, queda tipográfico -->
+              <div class="logoFallback" id="logoFallback">
+                FEE-KA
+                <small>104 · CAFÉ BAR</small>
+              </div>
+            </div>
+
+            <div class="titles">
+              <h1>Menú Digital</h1>
+              <p>Explora, antoja y disfruta ☕🍰</p>
+            </div>
+          </div>
+
+          <div class="searchRow">
+            <input id="q" class="search" placeholder="Buscar… (ej: capuccino, empanadas, hamburguesa, limonada)" />
+          </div>
+        </div>
+
+        <div class="chips" id="chips"></div>
+
+        <div class="content">
+          <div class="metaRow">
+            <div class="badge" id="resultCount">0 resultados</div>
+            <div class="ctaRow">
+              <!-- WhatsApp: cambia el número -->
+              <a class="btn primary" id="waBtn" href="#" target="_blank" rel="noopener">📲 WhatsApp</a>
+              <button class="btn" id="topBtn" type="button">⬆️ Ir arriba</button>
+            </div>
+          </div>
+
+          <div class="grid" id="list"></div>
+
+          <div class="footerNote">
+            *Propuesta: se puede añadir fotos, combos, “más vendido” y botón de WhatsApp por mesa.
+          </div>
+        </div>
+
+      </div>
     </div>
-
-    <div id="list" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;"></div>
   </div>
-</div>
 
 <script>
-const items = [
+/* =========================
+   1) LOGO REAL (opcional)
+   =========================
+   Si tienes el logo en tu repo, por ejemplo: "logo-feeka.png",
+   deja LOGO_URL = "logo-feeka.png".
+   Si lo tienes en una URL pública, pégala aquí.
+*/
+const LOGO_URL = ""; // EJ: "logo-feeka.png" o "https://.../logo.png"
 
-/* DESAYUNOS */
-{cat:"Desayunos",name:"Tradicional",desc:"Huevos al gusto, café americano, tostadas.",price:"$10.000"},
-{cat:"Desayunos",name:"Campesino",desc:"Huevos al gusto, papa, café de antaño y pan de maíz.",price:"$13.000"},
-{cat:"Desayunos",name:"Huevos Rancheros",desc:"Tocineta, salchicha, huevos, guacamole, café y pan de maíz.",price:"$15.000"},
-{cat:"Desayunos",name:"FEE-KA Pancakes",desc:"2 pancakes, huevos revueltos, banano, miel o mermelada y café.",price:"$15.000"},
+/* WhatsApp del negocio (cambia el número). Formato internacional sin + ni espacios:
+   Colombia: 57 + número. Ej: 573001112233 */
+const WHATSAPP_NUMBER = "57XXXXXXXXXX";
 
-/* CAFÉ */
-{cat:"Café",name:"Espresso",desc:"Intenso y aromático.",price:"$5.000"},
-{cat:"Café",name:"Americano",desc:"Suave y equilibrado.",price:"$5.000"},
-{cat:"Café",name:"Macchiato",desc:"Espresso con nube de leche.",price:"$5.000"},
-{cat:"Café",name:"Latte",desc:"Espresso con leche vaporizada.",price:"$7.000"},
-{cat:"Café",name:"Capuccino",desc:"Equilibrado y cremoso.",price:"$7.000"},
-{cat:"Café",name:"Capuccino Vienés",desc:"Con crema batida.",price:"$8.000"},
-{cat:"Café",name:"Capuccino con Esencia",desc:"Vainilla, amaretto, macadamia, avellana o caramelo.",price:"$11.000"},
-{cat:"Café",name:"Café Antaño",desc:"Panela y especias tradicionales.",price:"$6.000"},
-
-/* CAFÉ FRÍO */
-{cat:"Frías Café",name:"Latte Frío",desc:"Suave y refrescante.",price:"$8.000"},
-{cat:"Frías Café",name:"Orange Coffee",desc:"Espresso con jugo de naranja.",price:"$9.000"},
-{cat:"Frías Café",name:"Limonada de Café",desc:"Limón con café.",price:"$10.000"},
-{cat:"Frías Café",name:"Affogato",desc:"Helado de vainilla con shot de café.",price:"$11.000"},
-
-/* BEBIDAS CALIENTES */
-{cat:"Calientes",name:"Chocolate Clásico",desc:"",price:"$9.000"},
-{cat:"Calientes",name:"Chocolate FEE-KA",desc:"",price:"$11.000"},
-{cat:"Calientes",name:"Milo",desc:"",price:"$9.000"},
-{cat:"Calientes",name:"Té",desc:"",price:"$6.000"},
-
-/* BEBIDAS FRÍAS */
-{cat:"Frías",name:"Limonada Natural",desc:"",price:"$7.000"},
-{cat:"Frías",name:"Limonada de Coco",desc:"",price:"$10.000"},
-{cat:"Frías",name:"Jugo Natural en Agua",desc:"",price:"$7.000"},
-{cat:"Frías",name:"Malteada",desc:"Fresa, vainilla u Oreo.",price:"$13.000"},
-
-/* PASTELERÍA */
-{cat:"Pastelería",name:"Rollito de Canela",desc:"",price:"$8.000"},
-{cat:"Pastelería",name:"Croissant Relleno",desc:"Pistacho, frutos rojos, chocolate o queso.",price:"$8.000"},
-{cat:"Pastelería",name:"Porción de Torta Red Velvet",desc:"",price:"$11.000"},
-
-/* PLATOS */
-{cat:"Platos",name:"Hamburguesa Tradicional",desc:"Carne al barril, queso y papas.",price:"$18.000"},
-{cat:"Platos",name:"Hamburguesa al Barril",desc:"Tocineta, café, queso doble crema y papas.",price:"$24.000"},
-{cat:"Platos",name:"Nachos al Barril",desc:"Carnes, frijol y quesos.",price:"$23.000"},
-{cat:"Platos",name:"Salchipapa Gratinada",desc:"Carnes al barril, queso y plátano.",price:"$28.000"},
-
-/* COCTELES */
-{cat:"Cocteles",name:"Mojito de Kiwi",desc:"",price:"$20.000"},
-{cat:"Cocteles",name:"Pantera Rosa",desc:"",price:"$18.000"},
-{cat:"Cocteles",name:"Cuba Libre",desc:"",price:"$15.000"},
-
-/* CERVEZAS */
-{cat:"Cervezas",name:"Club Colombia",desc:"",price:"$10.000"},
-{cat:"Cervezas",name:"Corona",desc:"",price:"$10.000"},
-
-/* LICORES */
-{cat:"Licores",name:"Aguardiente Nariño",desc:"Botella",price:"$120.000"},
-{cat:"Licores",name:"Whisky Red Label",desc:"Botella",price:"$150.000"},
-
-/* KIDS */
-{cat:"Kids",name:"Capuccino Fee-Kids",desc:"",price:"$11.000"},
-{cat:"Kids",name:"Helado Crazy",desc:"Chocolate, gomitas, chantillí y más.",price:"$18.000"}
-
+/* =========================
+   2) CATEGORÍAS
+   ========================= */
+const categories = [
+  {key:"Todos", label:"Todos"},
+  {key:"Desayunos", label:"🥚 Desayunos"},
+  {key:"Omelettes", label:"🍳 Omelettes"},
+  {key:"Café Especialidad", label:"☕ Café Especialidad"},
+  {key:"Café Frío", label:"🧊 Café Frío"},
+  {key:"Café con Licor", label:"🥃 Café con Licor"},
+  {key:"Bebidas Calientes", label:"🍫 Bebidas Calientes"},
+  {key:"Bebidas Frías", label:"🧃 Bebidas Frías"},
+  {key:"Pastelería", label:"🍰 Pastelería"},
+  {key:"Acompañamientos", label:"🥟 Acompañamientos"},
+  {key:"Kids", label:"🧒 Kids"},
+  {key:"Platos Especiales", label:"🍔 Platos Especiales"},
+  {key:"Hervidos", label:"♨️ Hervidos"},
+  {key:"Cocteles", label:"🍹 Cocteles"},
+  {key:"Cervezas", label:"🍺 Cervezas"},
+  {key:"Cerveza Especial", label:"✨ Cerveza Especial"},
+  {key:"Licores Tradicionales", label:"🥃 Licores Trad."},
+  {key:"Licores Importados", label:"🌎 Importados"},
+  {key:"Para Acompañar", label:"🥤 Para Acompañar"},
 ];
 
-let state={cat:"Todos",q:""};
-const list=document.getElementById("list");
-const q=document.getElementById("q");
+/* =========================
+   3) ITEMS DEL MENÚ (completo)
+   Basado en tu PDF
+   ========================= */
+const items = [
+  // DESAYUNOS (pág. 1)
+  {cat:"Desayunos", name:"Tradicional", desc:"Huevos al gusto, café americano, tostadas de pan.", price:"$10.000", tags:["Clásico"]},
+  {cat:"Desayunos", name:"Campesino", desc:"Huevos al gusto, papa, café de antaño y un pan de maíz calentito.", price:"$13.000", tags:["Recomendado"]},
+  {cat:"Desayunos", name:"Huevos Rancheros", desc:"Tocineta, salchicha, huevos, guacamole, café americano y pan de maíz.", price:"$15.000", tags:["Más pedido"]},
+  {cat:"Desayunos", name:"FEE-KA Pancakes", desc:"2 pancakes, huevos revueltos, banano en julianas, mermelada o miel y café americano.", price:"$15.000", tags:["Dulce"]},
 
-function render(){
-  const f=items.filter(x=>{
-    const c=state.cat==="Todos"||x.cat===state.cat;
-    const s=(x.name+x.desc+x.price).toLowerCase();
-    const b=!state.q||s.includes(state.q.toLowerCase());
-    return c&&b;
-  });
-  list.innerHTML=f.map(x=>`
-    <div style="border:1px solid #eee;border-radius:14px;padding:14px;">
-      <div style="display:flex;justify-content:space-between;gap:10px;">
-        <div>
-          <strong>${x.name}</strong>
-          <div style="font-size:12px;opacity:.7">${x.cat}</div>
-        </div>
-        <strong>${x.price}</strong>
-      </div>
-      ${x.desc?`<div style="margin-top:8px;font-size:13px;opacity:.85">${x.desc}</div>`:""}
-    </div>
-  `).join("");
+  // OMELETTES (pág. 1)
+  {cat:"Omelettes", name:"Jamón y Queso", desc:"Relleno de jamón y queso, papas a la francesa. Incluye americano o capuchino.", price:"$12.000"},
+  {cat:"Omelettes", name:"Azteca", desc:"Carne desmechada, maíz tierno, chile, queso mozzarella, papas a la francesa. Incluye americano o capuchino.", price:"$16.000"},
+  {cat:"Omelettes", name:"Sándwich Omelette", desc:"Pollo desmechado, queso mozzarella, lechuga y tomate. Incluye americano o capuchino.", price:"$16.000"},
+
+  // CAFÉ DE ESPECIALIDAD (pág. 2)
+  {cat:"Café Especialidad", name:"Espresso", desc:"La esencia pura de café, intenso y aromático.", price:"$5.000", tags:["Café"]},
+  {cat:"Café Especialidad", name:"Americano", desc:"Suave y equilibrado; café de especialidad con agua caliente.", price:"$5.000", tags:["Café"]},
+  {cat:"Café Especialidad", name:"Macchiato", desc:"Espresso marcado con una nube de leche espumada.", price:"$5.000", tags:["Café"]},
+  {cat:"Café Especialidad", name:"Macaccino", desc:"Café de especialidad con la dulzura del chocolate y leche.", price:"$7.000", tags:["Chocolate"]},
+  {cat:"Café Especialidad", name:"Latte", desc:"Espresso suave y aterciopelado con leche vaporizada.", price:"$7.000"},
+  {cat:"Café Especialidad", name:"Café Antaño", desc:"Café con panela y especias tradicionales.", price:"$6.000", tags:["De la casa","coffee"]},
+  {cat:"Café Especialidad", name:"Capuccino Aldeano", desc:"A base de miel de panela y especias.", price:"$7.000"},
+  {cat:"Café Especialidad", name:"Café Bombón", desc:"Espresso con leche condensada y toque especiado.", price:"$6.000"},
+  {cat:"Café Especialidad", name:"Capuccino", desc:"Equilibrado: espresso + leche vaporizada cremosa.", price:"$7.000"},
+  {cat:"Café Especialidad", name:"Capuccino Vienés", desc:"Espresso intenso con leche vaporizada y crema batida.", price:"$8.000"},
+  {cat:"Café Especialidad", name:"Capuccino con Esencia", desc:"Vainilla, amaretto, macadamia, avellana o caramelo.", price:"$11.000", tags:["Premium"]},
+
+  // BEBIDAS FRÍAS DE CAFÉ (pág. 2)
+  {cat:"Café Frío", name:"Latte Frío", desc:"Suave y refrescante, tonalidad cremosa.", price:"$8.000"},
+  {cat:"Café Frío", name:"Orange Coffee", desc:"Espresso con jugo de naranja cítrico y sorprendente.", price:"$9.000", tags:["Nuevo"]},
+  {cat:"Café Frío", name:"Granizado de Café", desc:"Café helado con leche fría y hielo frappeado.", price:"$12.000"},
+  {cat:"Café Frío", name:"Limonada de Café", desc:"La acidez del limón con el carácter del café.", price:"$10.000"},
+  {cat:"Café Frío", name:"Café Affogato", desc:"Helado de vainilla con un shot caliente de café.", price:"$11.000"},
+  {cat:"Café Frío", name:"Malteada de Café", desc:"Combinación cremosa y vibrante.", price:"$14.000"},
+
+  // BEBIDAS DE CAFÉ CON LICOR (pág. 2 y 7)
+  {cat:"Café con Licor", name:"Carajillo", desc:"Espresso combinado con licor.", price:"$18.000"},
+  {cat:"Café con Licor", name:"Irish Coffee", desc:"Mezcla con whisky.", price:"$25.000"},
+  {cat:"Café con Licor", name:"Baileys Coffee", desc:"Mezclado con Baileys.", price:"$25.000"},
+  {cat:"Café con Licor", name:"Blue Coffee", desc:"Con Blue Curaçao.", price:"$22.000"},
+
+  // BEBIDAS CALIENTES (pág. 3)
+  {cat:"Bebidas Calientes", name:"Chocolate Clásico", desc:"", price:"$9.000"},
+  {cat:"Bebidas Calientes", name:"Chocolate FEE-KA", desc:"", price:"$11.000"},
+  {cat:"Bebidas Calientes", name:"Chocolate Cookies Fusión", desc:"Variedad de galletas, chocolate burbuja.", price:"$15.000"},
+  {cat:"Bebidas Calientes", name:"Milo", desc:"", price:"$9.000"},
+  {cat:"Bebidas Calientes", name:"Té", desc:"", price:"$6.000"},
+  {cat:"Bebidas Calientes", name:"Aromática Natural", desc:"", price:"$5.000"},
+  {cat:"Bebidas Calientes", name:"Aromática de Frutos Rojos", desc:"", price:"$8.000"},
+
+  // BEBIDAS FRÍAS (pág. 3)
+  {cat:"Bebidas Frías", name:"Coca-Cola Vainilla", desc:"Coca-Cola con helado.", price:"$15.000"},
+  {cat:"Bebidas Frías", name:"Jugo Natural en Agua", desc:"", price:"$7.000"},
+  {cat:"Bebidas Frías", name:"Jugo Natural en Leche", desc:"", price:"$10.000"},
+  {cat:"Bebidas Frías", name:"Limonada Natural", desc:"", price:"$7.000"},
+  {cat:"Bebidas Frías", name:"Limonada Imperial", desc:"", price:"$9.000"},
+  {cat:"Bebidas Frías", name:"Limonada de Hierbabuena", desc:"", price:"$9.000"},
+  {cat:"Bebidas Frías", name:"Limonada Cerezada", desc:"", price:"$10.000"},
+  {cat:"Bebidas Frías", name:"Limonada de Coco", desc:"", price:"$10.000"},
+  {cat:"Bebidas Frías", name:"Limonada de Mango", desc:"", price:"$10.000"},
+  {cat:"Bebidas Frías", name:"Granizado de Frutas", desc:"", price:"$11.000"},
+  {cat:"Bebidas Frías", name:"Sodas Italianas", desc:"Frutos rojos, amarillos y sandía.", price:"$15.000"},
+  {cat:"Bebidas Frías", name:"Malteada", desc:"Fresa, vainilla, oreo.", price:"$13.000"},
+  {cat:"Bebidas Frías", name:"Agua Panela", desc:"Caliente o fría.", price:"$6.000"},
+  {cat:"Bebidas Frías", name:"Botella de Agua", desc:"", price:"$4.000"},
+  {cat:"Bebidas Frías", name:"Té Helado", desc:"", price:"$7.000"},
+  {cat:"Bebidas Frías", name:"Gaseosa Personal", desc:"", price:"$5.000"},
+
+  // PASTELERÍA (pág. 4)
+  {cat:"Pastelería", name:"Porción de Torta Red Velvet", desc:"", price:"$11.000"},
+  {cat:"Pastelería", name:"Porción de Torta Mazorca", desc:"", price:"$8.000"},
+  {cat:"Pastelería", name:"Porción de Torta Naranja", desc:"", price:"$6.000"},
+  {cat:"Pastelería", name:"Porción Mantecadas", desc:"", price:"$10.000"},
+  {cat:"Pastelería", name:"Adición de Topping", desc:"Mermelada, arequipe, leche condensada.", price:"$10.000"},
+  {cat:"Pastelería", name:"Rollito de Canela", desc:"", price:"$8.000"},
+  {cat:"Pastelería", name:"Porción de Galletas", desc:"", price:"$8.000"},
+  {cat:"Pastelería", name:"Croissant Relleno", desc:"Crema de pistacho, frutos rojos, chocolate y queso.", price:"$8.000"},
+  {cat:"Pastelería", name:"Pan Media Luna", desc:"Fresas con Nutella o tocineta y queso.", price:"$12.000"},
+
+  // ACOMPAÑAMIENTOS (pág. 4)
+  {cat:"Acompañamientos", name:"Porción de Empanadas x8", desc:"", price:"$12.000"},
+  {cat:"Acompañamientos", name:"Media Porción Empanadas x4", desc:"", price:"$6.000"},
+  {cat:"Acompañamientos", name:"Empanada de Pollo en Hojaldre", desc:"", price:"$4.000"},
+  {cat:"Acompañamientos", name:"Sándwich Sencillo Jamón y Queso", desc:"", price:"$7.000"},
+
+  // KIDS (pág. 4)
+  {cat:"Kids", name:"Capuccino Fee-kids", desc:"", price:"$11.000"},
+  {cat:"Kids", name:"Moca Fee-kids", desc:"", price:"$12.000"},
+  {cat:"Kids", name:"Submarino M&M", desc:"Leche texturizada y chocolates M&M.", price:"$10.000"},
+  {cat:"Kids", name:"Submarino Burbuja", desc:"Leche texturizada y burbujas de chocolate.", price:"$10.000"},
+  {cat:"Kids", name:"Chocolate Fee-kids", desc:"Chantillí, grajeas de colores y masmelos.", price:"$13.000"},
+  {cat:"Kids", name:"Copa de Helado", desc:"", price:"$12.000"},
+  {cat:"Kids", name:"Brownie con Helado", desc:"", price:"$14.000"},
+  {cat:"Kids", name:"Granizado Junior de Frutas", desc:"", price:"$9.000"},
+  {cat:"Kids", name:"Helado Crazy", desc:"Chocolate líquido, leche condensada, 2 bolas de helado, gomas, chantillí, masmelos, grajeas, chocolatina y barquillo.", price:"$18.000", tags:["Más pedido"]},
+
+  // PLATOS ESPECIALES (pág. 5-6)
+  {cat:"Platos Especiales", name:"Picada al Barril (2 personas)", desc:"Carnes res/cerdo/pollo/chorizo, papa criolla, yuca, plátano, guacamole y ají.", price:"$35.000", tags:["Para compartir"]},
+  {cat:"Platos Especiales", name:"Picada Grande al Barril", desc:"Carnes res/cerdo/pollo/chorizo, papa criolla, yuca, plátano, guacamole y ají.", price:"$70.000", tags:["Para compartir"]},
+  {cat:"Platos Especiales", name:"Sándwich al Barril", desc:"Pan con carnes mixtas, vegetales y salsa de ajo. Papas a la francesa.", price:"$22.000"},
+  {cat:"Platos Especiales", name:"Chinchulines de la Casa", desc:"Preparados con el sello de la casa. Papa criolla, arepa y chorizo.", price:"$30.000"},
+  {cat:"Platos Especiales", name:"Salchipapa Tradicional", desc:"Papas a la francesa, salchichas crujientes y aderezo de la casa.", price:"$12.000"},
+  {cat:"Platos Especiales", name:"Salchipapa Gratinada", desc:"Papas, carnes al barril, chorizo artesanal, queso doble crema, plátano caramelizado y aderezo.", price:"$28.000"},
+  {cat:"Platos Especiales", name:"Shawarma", desc:"Pollo marinado, vegetales crocantes y salsa cremosa de ajo.", price:"$20.000"},
+  {cat:"Platos Especiales", name:"Nachos al Barril", desc:"Totopos con carnes, frijol y quesos derretidos.", price:"$23.000"},
+  {cat:"Platos Especiales", name:"Hamburguesa Tradicional", desc:"Pan artesanal, carne al barril, queso y papas a la francesa.", price:"$18.000"},
+  {cat:"Platos Especiales", name:"Hamburguesa al Barril (tocineta y café)", desc:"Carne al barril, queso doble crema, papas y salsa de tocineta y café.", price:"$24.000", tags:["Recomendado"]},
+  {cat:"Platos Especiales", name:"Chorizos al Barril", desc:"Chorizos artesanales, salchicha picante y papa al vapor.", price:"$28.000"},
+  {cat:"Platos Especiales", name:"Filete al Barril (cerdo o pollo)", desc:"Papa al vapor, plátano caramelizado y aderezo de la casa.", price:"$38.000"},
+  {cat:"Platos Especiales", name:"Ceviche de Chicharrón", desc:"Chicharrón crocante con patacones.", price:"$21.000"},
+  {cat:"Platos Especiales", name:"Alitas en Salsa Teriyaki (10)", desc:"Salsa dulce con miel, jengibre y soya. Papas y salsa de la casa.", price:"$26.000"},
+  {cat:"Platos Especiales", name:"Alitas Picantes (10)", desc:"Bañadas en salsa picante. Papas y salsa de la casa.", price:"$28.000"},
+
+  // HERVIDOS GOURMET (pág. 7)
+  {cat:"Hervidos", name:"Hervido Zanahoria y Uchuva", desc:"(Jarra o copa)", price:"Copa $14.000 · Jarra (mix) $60.000"},
+  {cat:"Hervidos", name:"Hervido Vinotinto y Flor de Jamaica", desc:"(Jarra o copa)", price:"Copa $14.000 · Jarra (mix) $60.000"},
+  {cat:"Hervidos", name:"Hervido Espresso Especiado", desc:"(Jarra o copa)", price:"Copa $14.000 · Jarra (mix) $60.000"},
+  {cat:"Hervidos", name:"Vino Vintage Calcifer (Vino caliente)", desc:"", price:"Copa $12.000 · Jarra $30.000"},
+
+  // COCTELES (pág. 7)
+  {cat:"Cocteles", name:"Daiquiri de Mango", desc:"", price:"$18.000"},
+  {cat:"Cocteles", name:"Eclipse Azul", desc:"", price:"$20.000"},
+  {cat:"Cocteles", name:"Adiós Motherfucker", desc:"", price:"$20.000"},
+  {cat:"Cocteles", name:"Pantera Rosa", desc:"", price:"$18.000"},
+  {cat:"Cocteles", name:"Cuba Libre", desc:"", price:"$15.000"},
+  {cat:"Cocteles", name:"Mojito de Kiwi", desc:"", price:"$20.000"},
+  {cat:"Cocteles", name:"Cósmico Verde", desc:"", price:"$11.000"},
+  {cat:"Cocteles", name:"Cósmico Rosado", desc:"", price:"$11.000"},
+  {cat:"Cocteles", name:"Pecera Borracha", desc:"", price:"$30.000"},
+
+  // CERVEZAS (pág. 7)
+  {cat:"Cervezas", name:"Club Colombia", desc:"", price:"$10.000"},
+  {cat:"Cervezas", name:"Corona", desc:"", price:"$10.000"},
+  {cat:"Cervezas", name:"Budweiser", desc:"", price:"$10.000"},
+  {cat:"Cervezas", name:"Stella Artois", desc:"", price:"$10.000"},
+  {cat:"Cervezas", name:"Smirnoff Ice", desc:"", price:"$12.000"},
+
+  // CERVEZA ESPECIAL (pág. 7)
+  {cat:"Cerveza Especial", name:"Cerveza Aurora", desc:"", price:"$16.000"},
+  {cat:"Cerveza Especial", name:"Cerveza Susurro", desc:"", price:"$18.000"},
+  {cat:"Cerveza Especial", name:"Cerveza Escarlata", desc:"", price:"$18.000"},
+  {cat:"Cerveza Especial", name:"Cerveza Cáliz", desc:"", price:"$15.000"},
+  {cat:"Cerveza Especial", name:"Destello Especiado", desc:"", price:"$10.000"},
+
+  // LICORES TRADICIONALES (pág. 7)
+  {cat:"Licores Tradicionales", name:"Aguardiente Nariño", desc:"Botella", price:"$120.000"},
+  {cat:"Licores Tradicionales", name:"Aguardiente Antioqueño", desc:"Botella", price:"$120.000"},
+  {cat:"Licores Tradicionales", name:"Aguardiente Amarillo", desc:"Botella", price:"$130.000"},
+  {cat:"Licores Tradicionales", name:"Ron", desc:"Botella", price:"$120.000"},
+  {cat:"Licores Tradicionales", name:"Ron Edición Especial", desc:"Botella", price:"$140.000"},
+  {cat:"Licores Tradicionales", name:"Brandy con Leche", desc:"Copa", price:"$15.000"},
+
+  // LICORES IMPORTADOS (pág. 8)
+  {cat:"Licores Importados", name:"Los Cuates (personal)", desc:"", price:"$11.000"},
+  {cat:"Licores Importados", name:"Vodka Absolut", desc:"Botella", price:"$200.000"},
+  {cat:"Licores Importados", name:"Vodka Absolut Citron", desc:"Botella", price:"$200.000"},
+  {cat:"Licores Importados", name:"Vodka Smirnoff Tamarindo y Lulo", desc:"Botella", price:"$150.000"},
+  {cat:"Licores Importados", name:"Tequila José Cuervo Tradicional", desc:"Botella", price:"$200.000"},
+  {cat:"Licores Importados", name:"Tequila José Cuervo", desc:"Botella", price:"$160.000"},
+  {cat:"Licores Importados", name:"Tequila El Jimador", desc:"Botella", price:"$200.000"},
+  {cat:"Licores Importados", name:"Tequila El Patrón", desc:"Botella", price:"$530.000"},
+  {cat:"Licores Importados", name:"Tequila Don Julio", desc:"Botella", price:"$430.000"},
+  {cat:"Licores Importados", name:"Tequila Don Julio 70", desc:"Botella", price:"$630.000"},
+  {cat:"Licores Importados", name:"Tequila Don Julio Reposado", desc:"Botella", price:"$430.000"},
+  {cat:"Licores Importados", name:"Tequila Don Julio Añejo", desc:"Botella", price:"$430.000"},
+  {cat:"Licores Importados", name:"Tequila Olmeca", desc:"Botella", price:"$160.000"},
+  {cat:"Licores Importados", name:"Whisky Buchanans Deluxe 12", desc:"Botella", price:"$280.000"},
+  {cat:"Licores Importados", name:"Whisky Buchanans Master", desc:"Botella", price:"$330.000"},
+  {cat:"Licores Importados", name:"Whisky Buchanans Especial 18", desc:"Botella", price:"$530.000"},
+  {cat:"Licores Importados", name:"Whisky Jack Daniels (todas)", desc:"Botella", price:"$260.000"},
+  {cat:"Licores Importados", name:"Whisky Something Special", desc:"Botella", price:"$150.000"},
+  {cat:"Licores Importados", name:"Whisky Red Label", desc:"Botella", price:"$150.000"},
+  {cat:"Licores Importados", name:"Whisky Chivas Regal", desc:"Botella", price:"$260.000"},
+  {cat:"Licores Importados", name:"Whisky Jägermeister", desc:"Botella", price:"$200.000"},
+  {cat:"Licores Importados", name:"Whisky Ballantines", desc:"Botella", price:"$150.000"},
+  {cat:"Licores Importados", name:"Crema de Whisky Baileys", desc:"Botella", price:"$150.000"},
+  {cat:"Licores Importados", name:"Champaña JP Chenet", desc:"Botella", price:"$150.000"},
+  {cat:"Licores Importados", name:"Vino Casillero del Diablo", desc:"Botella", price:"$150.000"},
+  {cat:"Licores Importados", name:"Vino Gato Negro", desc:"Botella", price:"$140.000"},
+
+  // BEBIDAS PARA ACOMPAÑAR (pág. 8)
+  {cat:"Para Acompañar", name:"Red Bull", desc:"", price:"$12.000"},
+  {cat:"Para Acompañar", name:"Monster", desc:"", price:"$12.000"},
+  {cat:"Para Acompañar", name:"Electrolit", desc:"", price:"$13.000"},
+  {cat:"Para Acompañar", name:"Soda Schweppes", desc:"", price:"$10.000"},
+  {cat:"Para Acompañar", name:"Agua Manantial", desc:"", price:"$8.000"},
+  {cat:"Para Acompañar", name:"Gatorade", desc:"", price:"$10.000"},
+  {cat:"Para Acompañar", name:"Coca-Cola", desc:"", price:"$10.000"},
+];
+
+/* =========================
+   4) UI / LÓGICA
+   ========================= */
+const list = document.getElementById("list");
+const q = document.getElementById("q");
+const chips = document.getElementById("chips");
+const resultCount = document.getElementById("resultCount");
+const waBtn = document.getElementById("waBtn");
+const topBtn = document.getElementById("topBtn");
+
+let state = { cat: "Todos", q: "" };
+
+function applyLogo(){
+  if(!LOGO_URL) return;
+  const box = document.getElementById("logoBox");
+  const fallback = document.getElementById("logoFallback");
+  fallback.style.display = "none";
+  box.innerHTML = `<img src="${LOGO_URL}" alt="Logo FEE-KA 104">`;
 }
 
-document.querySelectorAll(".cat").forEach(b=>{
-  b.style.padding="10px 14px";
-  b.style.border="1px solid #ddd";
-  b.style.borderRadius="999px";
-  b.style.background="#fff";
-  b.style.cursor="pointer";
-  b.onclick=()=>{state.cat=b.dataset.cat;render();}
-});
-q.oninput=e=>{state.q=e.target.value;render();};
+function makeChips(){
+  chips.innerHTML = categories.map(c => `
+    <div class="chip ${c.key === state.cat ? "active" : ""}" data-cat="${c.key}">
+      ${c.label}
+    </div>
+  `).join("");
+
+  chips.querySelectorAll(".chip").forEach(el=>{
+    el.onclick = () => {
+      state.cat = el.dataset.cat;
+      makeChips();
+      render();
+    };
+  });
+}
+
+function render(){
+  const filtered = items.filter(x=>{
+    const byCat = (state.cat === "Todos") || (x.cat === state.cat);
+    const tags = (x.tags || []).join(" ");
+    const s = (x.name + " " + x.desc + " " + x.price + " " + x.cat + " " + tags).toLowerCase();
+    const byQ = !state.q || s.includes(state.q.toLowerCase());
+    return byCat && byQ;
+  });
+
+  resultCount.textContent = `${filtered.length} resultado${filtered.length === 1 ? "" : "s"}`;
+
+  list.innerHTML = filtered.map(x => {
+    const tags = (x.tags || []);
+    const tagHtml = tags.length
+      ? `<div class="tagRow">${tags.map(t=>{
+          const coffee = (t.toLowerCase().includes("casa") || t.toLowerCase().includes("café") || t.toLowerCase().includes("coffee"));
+          return `<span class="tag ${coffee ? "coffee":""}">${t}</span>`;
+        }).join("")}</div>`
+      : "";
+
+    return `
+      <div class="card">
+        <div class="cardTop">
+          <div>
+            <div class="name">${x.name}</div>
+            <div class="cat">${x.cat}</div>
+          </div>
+          <div class="price">${x.price}</div>
+        </div>
+        ${x.desc ? `<div class="desc">${x.desc}</div>` : ``}
+        ${tagHtml}
+      </div>
+    `;
+  }).join("") || `<div class="empty">No encontré resultados. Prueba con otra palabra.</div>`;
+}
+
+function setupWhatsApp(){
+  const base = `https://wa.me/${WHATSAPP_NUMBER}`;
+  const msg = encodeURIComponent("Hola 👋 Estoy viendo el menú digital de FEE-KA 104. ¿Me ayudas con un pedido?");
+  waBtn.href = `${base}?text=${msg}`;
+}
+
+q.addEventListener("input", e => { state.q = e.target.value; render(); });
+topBtn.addEventListener("click", () => window.scrollTo({top:0, behavior:"smooth"}));
+
+applyLogo();
+makeChips();
+setupWhatsApp();
 render();
 </script>
+
+</body>
+</html>
