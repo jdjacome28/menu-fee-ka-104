@@ -1,0 +1,523 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<title>FEE-KA 104 · Menú Netflix</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#050505;
+  --bg2:#0b0b0b;
+  --panel:rgba(20,20,20,.78);
+  --line:rgba(255,255,255,.10);
+  --text:#f5f5f7;
+  --muted:rgba(245,245,247,.72);
+  --red:#e50914;
+  --shadow:0 18px 70px rgba(0,0,0,.65);
+  --r:18px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:linear-gradient(180deg,var(--bg),var(--bg2));color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial}
+a{color:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding:14px}
+.shell{border:1px solid rgba(255,255,255,.08);border-radius:26px;overflow:hidden;box-shadow:var(--shadow);background:linear-gradient(180deg, rgba(16,16,16,.88), rgba(16,16,16,.70))}
+/* HERO */
+.hero{
+  position:relative;
+  padding:16px;
+  background:
+    radial-gradient(900px 520px at 12% -10%, rgba(229,9,20,.35), transparent 60%),
+    radial-gradient(900px 520px at 88% -10%, rgba(255,255,255,.10), transparent 60%),
+    linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.20));
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.heroTop{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.brand{display:flex;gap:12px;align-items:center;min-width:240px}
+.logo{
+  width:56px;height:56px;border-radius:18px;
+  background:linear-gradient(135deg, rgba(229,9,20,.95), rgba(120,10,14,.85));
+  box-shadow:0 16px 40px rgba(229,9,20,.18);
+  border:1px solid rgba(255,255,255,.16);
+  display:flex;align-items:center;justify-content:center;
+}
+.logoText{font-weight:900;letter-spacing:.6px;text-align:center;line-height:1.05}
+.logoText small{display:block;font-size:11px;opacity:.92;letter-spacing:.2px;margin-top:4px}
+h1{margin:0;font-size:16px;font-weight:950;letter-spacing:.2px}
+.sub{margin:6px 0 0 0;font-size:12px;color:var(--muted)}
+.actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.search{width:min(560px, 92vw);padding:12px 14px;border-radius:14px;border:1px solid rgba(255,255,255,.12);background:rgba(18,18,18,.70);color:var(--text);outline:none}
+.search:focus{border-color:rgba(229,9,20,.55);box-shadow:0 0 0 4px rgba(229,9,20,.16)}
+.btn{border:none;border-radius:999px;padding:10px 12px;font-weight:950;cursor:pointer;display:inline-flex;gap:8px;align-items:center}
+.btn.primary{background:var(--red);color:#fff;box-shadow:0 16px 40px rgba(229,9,20,.22)}
+.btn.ghost{background:rgba(255,255,255,.06);color:rgba(245,245,247,.92);border:1px solid rgba(255,255,255,.12)}
+.meta{display:flex;gap:10px;justify-content:space-between;align-items:center;flex-wrap:wrap;margin-top:12px}
+.pill{font-size:12px;color:rgba(245,245,247,.82);background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.10);padding:8px 10px;border-radius:999px}
+/* CHIPS */
+.chipsWrap{margin-top:12px}
+.chips{display:flex;gap:10px;overflow:auto;padding-bottom:6px;-webkit-overflow-scrolling:touch}
+.chips::-webkit-scrollbar{height:8px}
+.chips::-webkit-scrollbar-thumb{background:rgba(255,255,255,.14);border-radius:999px}
+.chip{white-space:nowrap;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);padding:9px 11px;border-radius:999px;font-weight:900;font-size:13px;cursor:pointer;color:rgba(245,245,247,.92)}
+.chip.active{background:rgba(245,245,247,.95);color:#0b0b0b;border-color:rgba(255,255,255,.22)}
+/* ROWS */
+.content{padding:12px 0 18px 0}
+.row{padding:0 16px;margin:0 0 22px 0;position:relative}
+.rowTitle{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:0 0 10px 0}
+.rowTitle h2{margin:0;font-size:15px;font-weight:950;letter-spacing:.2px}
+.hint{font-size:12px;color:rgba(245,245,247,.65)}
+.scroller{display:flex;gap:12px;overflow-x:auto;padding-bottom:8px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
+.scroller::-webkit-scrollbar{height:8px}
+.scroller::-webkit-scrollbar-thumb{background:rgba(255,255,255,.14);border-radius:999px}
+.row:before,.row:after{content:"";position:absolute;top:34px;bottom:0;width:40px;pointer-events:none;z-index:5}
+.row:before{left:16px;background:linear-gradient(90deg, rgba(5,5,5,1), rgba(5,5,5,0))}
+.row:after{right:16px;background:linear-gradient(270deg, rgba(5,5,5,1), rgba(5,5,5,0))}
+/* CARD */
+.card{min-width:168px;max-width:168px;border-radius:16px;overflow:hidden;cursor:pointer;scroll-snap-align:start;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.10);box-shadow:0 14px 34px rgba(0,0,0,.45);transition:transform .14s ease, box-shadow .14s ease;position:relative}
+.poster{height:230px;background:#222;position:relative}
+.poster img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(1.06) contrast(1.04)}
+.poster:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg, rgba(0,0,0,.05), rgba(0,0,0,0) 45%, rgba(0,0,0,.82));pointer-events:none}
+.metaCard{position:absolute;left:10px;right:10px;bottom:10px;z-index:3}
+.name{margin:0;font-size:13px;font-weight:950;line-height:1.15;text-shadow:0 12px 30px rgba(0,0,0,.65)}
+.price{margin-top:6px;font-weight:950;font-size:13px;opacity:.98;text-shadow:0 12px 30px rgba(0,0,0,.65)}
+.badge{position:absolute;top:10px;left:10px;padding:6px 9px;border-radius:999px;font-size:11px;font-weight:950;color:#fff;background:rgba(0,0,0,.55);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.12);z-index:4}
+.badge.top{background:var(--red);border-color:rgba(255,255,255,.22)}
+@media(hover:hover){.card:hover{transform:scale(1.07);z-index:10;box-shadow:0 22px 54px rgba(0,0,0,.65)}}
+/* TOP10 */
+.top10{min-width:210px;max-width:210px}
+.top10 .poster{height:230px}
+.rank{position:absolute;left:-6px;bottom:-18px;font-size:110px;font-weight:950;line-height:1;color:rgba(255,255,255,.14);text-shadow:0 24px 70px rgba(0,0,0,.55);z-index:2;pointer-events:none}
+/* MODAL */
+.modal{position:fixed;inset:0;display:none;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.65);z-index:999}
+.sheet{width:min(680px, 100%);background:linear-gradient(180deg, rgba(18,18,18,.98), rgba(18,18,18,.92));border:1px solid rgba(255,255,255,.12);border-radius:22px 22px 0 0;overflow:hidden;box-shadow:0 30px 90px rgba(0,0,0,.75)}
+.sheetImg{height:250px;position:relative;background:#222}
+.sheetImg img{width:100%;height:100%;object-fit:cover;display:block}
+.sheetImg:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg, rgba(0,0,0,.12), rgba(0,0,0,.78));pointer-events:none}
+.sheetBody{padding:14px 16px 16px 16px}
+.sheetTop{display:flex;gap:10px;justify-content:space-between;align-items:flex-start}
+.sheetName{margin:0;font-size:17px;font-weight:950}
+.sheetCat{font-size:12px;color:rgba(245,245,247,.65);margin-top:4px}
+.sheetPrice{font-weight:950;white-space:nowrap;font-size:15px;opacity:.95}
+.x{border:none;background:rgba(255,255,255,.08);width:40px;height:40px;border-radius:999px;cursor:pointer;font-size:18px;color:var(--text);border:1px solid rgba(255,255,255,.12)}
+.sheetDesc{margin-top:10px;font-size:13px;line-height:1.38;color:rgba(245,245,247,.88)}
+.sheetActions{margin-top:12px;display:flex;gap:10px}
+.sheetActions .btn{width:100%;justify-content:center}
+.smallNote{padding:0 16px 16px 16px;color:rgba(245,245,247,.55);font-size:12px}
+@media (max-width:640px){
+  .card{min-width:160px;max-width:160px}
+  .poster{height:220px}
+  .top10{min-width:200px;max-width:200px}
+  .rank{font-size:98px}
+  .row:before,.row:after{width:26px}
+  .sheetImg{height:220px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="shell">
+    <div class="hero">
+      <div class="heroTop">
+        <div class="brand">
+          <div class="logo"><div class="logoText">FEE-KA<small>104 · CAFÉ</small></div></div>
+          <div>
+            <h1>Menú Digital · Estilo Netflix</h1>
+            <p class="sub" id="momentTxt">Cargando…</p>
+          </div>
+        </div>
+        <div class="actions">
+          <input id="q" class="search" placeholder="Buscar… (capuccino, hamburguesa, limonada)" />
+          <button class="btn ghost" id="clear">🧹 Limpiar</button>
+          <button class="btn primary" id="wa">📲 WhatsApp</button>
+        </div>
+      </div>
+      <div class="meta">
+        <div class="pill" id="count">—</div>
+        <div class="pill" id="mode">—</div>
+      </div>
+      <div class="chipsWrap">
+        <div class="chips" id="chips"></div>
+      </div>
+    </div>
+
+    <div class="content" id="rows"></div>
+
+    <div class="smallNote">
+      Tip: también funciona con QR por mesa usando <b>?mesa=12</b> al final del enlace.
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal">
+  <div class="sheet">
+    <div class="sheetImg"><img id="mImg" alt=""></div>
+    <div class="sheetBody">
+      <div class="sheetTop">
+        <div style="flex:1">
+          <p class="sheetName" id="mName"></p>
+          <div class="sheetCat" id="mCat"></div>
+        </div>
+        <div class="sheetPrice" id="mPrice"></div>
+        <button class="x" id="close">✕</button>
+      </div>
+      <div class="sheetDesc" id="mDesc"></div>
+      <div class="sheetActions">
+        <button class="btn primary" id="mBuy">📲 Pedir por WhatsApp</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const WHATSAPP_NUMBER = "573227471677";
+const PLACE_NAME = "FEE-KA 104";
+const params = new URLSearchParams(location.search);
+const MESA = params.get("mesa") ? String(params.get("mesa")) : "";
+
+const products = [
+  {name:'Tradicional', cat:'Desayunos', price:'$10.000', desc:'Huevos al gusto, café americano, tostadas de pan.', tags:["top", "dia"], img:'https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Campesino', cat:'Desayunos', price:'$13.000', desc:'Huevos al gusto, papa, café de antaño y un pan de maíz calentito.', tags:["top", "dia"], img:'https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Huevos Rancheros', cat:'Desayunos', price:'$15.000', desc:'Tocineta, salchicha, huevos, guacamole, café americano y la calidez del pan de maíz.', tags:["top", "dia"], img:'https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=1200&q=60'},
+  {name:'FEE-KA PANCAKES', cat:'Desayunos', price:'$15.000', desc:'2 Pancakes, huevos revueltos, banano en julianas, mermelada o miel y cafe americano', tags:["top", "dia"], img:'https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=1200&q=60'},
+  {name:'JAMON Y QUESO', cat:'Omelettes', price:'$12.000', desc:'Relleno de jamón y queso, papas a la francesa. Americano o capuchino.', tags:["dia"], img:'https://images.unsplash.com/photo-1551218808-94e220e084d2?auto=format&fit=crop&w=1200&q=60'},
+  {name:'AZTECA', cat:'Omelettes', price:'$16.000', desc:'Relleno de carne desmechada, maíz tierno, chile, queso mozzarella, papas a la francesa Americano o capuchino.', tags:["dia"], img:'https://images.unsplash.com/photo-1551218808-94e220e084d2?auto=format&fit=crop&w=1200&q=60'},
+  {name:'SANDWICH OMELETTE', cat:'Omelettes', price:'$16.000', desc:'Relleno de pollo desmechado, queso mozzarella, lechuga y tomate Americano o capuchino.', tags:["dia"], img:'https://images.unsplash.com/photo-1551218808-94e220e084d2?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Espresso', cat:'Café Especialidad', price:'$5.000', desc:'La esencia pura de café, intenso y aromático.', tags:["dia"], img:'https://images.unsplash.com/photo-1517705008128-361805f42e86?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Americano', cat:'Café Especialidad', price:'$5.000', desc:'Suave y equilibrado, donde el café de especialidad se diluye con agua caliente para resaltar sus notas aromáticas.', tags:["dia"], img:'https://images.unsplash.com/photo-1517705008128-361805f42e86?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Macchiato', cat:'Café Especialidad', price:'$5.000', desc:'intenso y elegante, donde el espresso se marca con una nube de leche espumada.', tags:["dia"], img:'https://images.unsplash.com/photo-1517705008128-361805f42e86?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Macaccino', cat:'Café Especialidad', price:'$7.000', desc:'Café de especialidad con la dulzura del chocolate y leche.', tags:["dia"], img:'https://images.unsplash.com/photo-1517705008128-361805f42e86?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Latte', cat:'Café Especialidad', price:'$7.000', desc:'Espresso suave y aterciopelado se envuelve en una capa de leche vaporizada.', tags:["top", "dia"], img:'https://images.unsplash.com/photo-1517705008128-361805f42e86?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Café Antaño', cat:'Café Especialidad', price:'$6.000', desc:'Auténtico y aromático, café con la dulzura de la panela y especias tradicionales.', tags:["dia"], img:'https://images.unsplash.com/photo-1517705008128-361805f42e86?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Capuccino Aldeano', cat:'Café Especialidad', price:'$7.000', desc:'(a base de miel de panela y especias)', tags:["dia"], img:'https://images.unsplash.com/photo-1517705008128-361805f42e86?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Café Bombón', cat:'Café Especialidad', price:'$6.000', desc:'Dulce y seductor, donde el espresso se combina con leche condensada y un toque especiado para crear una mezcla cremosa.', tags:["dia"], img:'https://images.unsplash.com/photo-1517705008128-361805f42e86?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Capuccino', cat:'Café Especialidad', price:'$7.000', desc:'Equilibrado se fusiona con leche vaporizada y cremosa.', tags:["top", "dia"], img:'https://images.unsplash.com/photo-1517705008128-361805f42e86?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Capuccino Vienés', cat:'Café Especialidad', price:'$8.000', desc:'Elegante y tentador, donde el espresso intenso se combina con leche vaporizada y una corona de crema batida.', tags:["dia"], img:'https://images.unsplash.com/photo-1517705008128-361805f42e86?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Capuccino con Escencia', cat:'Café Especialidad', price:'$11.000', desc:'Suave y exquisito fusionado con sabores perfectos. ( vainilla, amaretto, macadamia, avellana, caramelo)', tags:["dia"], img:'https://images.unsplash.com/photo-1517705008128-361805f42e86?auto=format&fit=crop&w=1200&q=60'},
+  {name:'dadilaicepsE', cat:'Café Frío', price:'$8.000', desc:'ed Latte Frío: Suave y refrescante con tonalidad cremosa', tags:["dia"], img:'https://images.unsplash.com/photo-1528823872057-9c018a7dbab6?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Orange Coffee', cat:'Café Frío', price:'$9.000', desc:'Vibrante espresso combinado con jugo de naranja citrico y sorprendente.', tags:["dia"], img:'https://images.unsplash.com/photo-1528823872057-9c018a7dbab6?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Granizado de Café', cat:'Café Frío', price:'$12.000', desc:'Café helado, dulce y cremoso, donde el sabor de café se mezcla con leche fría y hielo frappeado', tags:["dia"], img:'https://images.unsplash.com/photo-1528823872057-9c018a7dbab6?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Limonada de Café', cat:'Café Frío', price:'$10.000', desc:'Refrescante y atrevida, donde la acidez del limón se mezcla con el carácter del café.', tags:["dia"], img:'https://images.unsplash.com/photo-1528823872057-9c018a7dbab6?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Café Affogato', cat:'Café Frío', price:'$11.000', desc:'Un postre-café irresistible: helado de vainilla cubierto con un shot caliente de café', tags:["dia"], img:'https://images.unsplash.com/photo-1528823872057-9c018a7dbab6?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Malteada de café', cat:'Café Frío', price:'$14.000', desc:'Vibrante y especial combinación cremosa', tags:["dia"], img:'https://images.unsplash.com/photo-1528823872057-9c018a7dbab6?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Carajillo', cat:'Café con Licor', price:'$18.000', desc:'Refrescante y potente combinado con licor.', tags:["noche"], img:'https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Irish Coffee', cat:'Café con Licor', price:'$25.000', desc:'Aromático y equilibrado mezclado con whisk.', tags:["noche"], img:'https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Baileys Coffee', cat:'Café con Licor', price:'$25.000', desc:'Sedoso y aromático, mezclado con Baileys.', tags:["noche"], img:'https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Blue Coffee', cat:'Café con Licor', price:'$22.000', desc:'Sorprendente y refrescante, combinado con Blue Curaçao.', tags:["noche"], img:'https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Chocolate Clasico', cat:'Bebidas Calientes', price:'$9.000', desc:'', tags:["dia"], img:'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Chocolate FEE-KA', cat:'Bebidas Calientes', price:'$11.000', desc:'', tags:["dia"], img:'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Chocolate Cookies fusión ( variedad de galletas,', cat:'Bebidas Calientes', price:'$15.000', desc:'chocolate burbuja)', tags:["dia"], img:'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Milo', cat:'Bebidas Calientes', price:'$9.000', desc:'', tags:["dia"], img:'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Te', cat:'Bebidas Calientes', price:'$6.000', desc:'', tags:["dia"], img:'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Aromática natural', cat:'Bebidas Calientes', price:'$5.000', desc:'', tags:["dia"], img:'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Aromática de Frutos Rojos', cat:'Bebidas Calientes', price:'$8.000', desc:'', tags:["dia"], img:'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=1200&q=60'},
+  {name:'setneilaC', cat:'Bebidas Frías', price:'$15.000', desc:'sairF sartO Coca-Cola Vainilla: deliciosa tentación entre la Coca-Cola y Helado', tags:["dia"], img:'https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Jugo natural en agua', cat:'Bebidas Frías', price:'$7.000', desc:'', tags:["dia"], img:'https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Jugo natural en leche', cat:'Bebidas Frías', price:'$10.000', desc:'', tags:["dia"], img:'https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Limonada natural', cat:'Bebidas Frías', price:'$7.000', desc:'', tags:["dia"], img:'https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Limonada imperial', cat:'Bebidas Frías', price:'$9.000', desc:'', tags:["dia"], img:'https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Limonada de hierbabuena', cat:'Bebidas Frías', price:'$9.000', desc:'', tags:["dia"], img:'https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Limonada cerezada', cat:'Bebidas Frías', price:'$10.000', desc:'', tags:["dia"], img:'https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Limonada de coco', cat:'Bebidas Frías', price:'$10.000', desc:'', tags:["top", "dia"], img:'https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Limonada de mango', cat:'Bebidas Frías', price:'$10.000', desc:'', tags:["dia"], img:'https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Granizado de frutas', cat:'Bebidas Frías', price:'$11.000', desc:'', tags:["dia"], img:'https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Sodas Italianas ( frutos rojos, amarillos y sandia)', cat:'Bebidas Frías', price:'$15.000', desc:'', tags:["dia"], img:'https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Malteada (Fresa, vainilla, oreo)', cat:'Bebidas Frías', price:'$13.000', desc:'', tags:["dia"], img:'https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Agua panela (Caliente o fría)', cat:'Bebidas Frías', price:'$6.000', desc:'', tags:["dia"], img:'https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Botella de agua', cat:'Bebidas Frías', price:'$4.000', desc:'', tags:["dia"], img:'https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Te helado', cat:'Bebidas Frías', price:'$7.000', desc:'', tags:["dia"], img:'https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Gaseosa personal', cat:'Bebidas Frías', price:'$5.000', desc:'', tags:["dia"], img:'https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Porcion de torta Red velvet', cat:'Pastelería', price:'$11.000', desc:'', tags:["dia"], img:'https://images.unsplash.com/photo-1608198093002-ad4e005484ec?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Porcion de torta Mazorca', cat:'Pastelería', price:'$8.000', desc:'', tags:["dia"], img:'https://images.unsplash.com/photo-1608198093002-ad4e005484ec?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Porción de torta Naranja', cat:'Pastelería', price:'$6.000', desc:'', tags:["dia"], img:'https://images.unsplash.com/photo-1608198093002-ad4e005484ec?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Porcion mantecada', cat:'Pastelería', price:'$10.000', desc:'Adicion de topping: Mermelada, arequipe, leche condensada', tags:["dia"], img:'https://images.unsplash.com/photo-1608198093002-ad4e005484ec?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Rollito de canela', cat:'Pastelería', price:'$8.000', desc:'', tags:["dia"], img:'https://images.unsplash.com/photo-1608198093002-ad4e005484ec?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Porcion de galletas', cat:'Pastelería', price:'$8.000', desc:'', tags:["dia"], img:'https://images.unsplash.com/photo-1608198093002-ad4e005484ec?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Croissant Relleno', cat:'Pastelería', price:'$8.000', desc:'(Crema de pistacho, Frutos rojos, chocolate y queso)', tags:["dia"], img:'https://images.unsplash.com/photo-1608198093002-ad4e005484ec?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Pan media luna', cat:'Pastelería', price:'$12.000', desc:'(fresas con Nutella o tocineta y queso)', tags:["dia"], img:'https://images.unsplash.com/photo-1608198093002-ad4e005484ec?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Porción de empanadas por 8', cat:'Acompañamientos', price:'$12.000', desc:'', tags:["dia"], img:'https://images.unsplash.com/photo-1604908177522-4297c7c1e05a?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Media porción empanadas por 4', cat:'Acompañamientos', price:'$6.000', desc:'', tags:["dia"], img:'https://images.unsplash.com/photo-1604908177522-4297c7c1e05a?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Empanada de pollo en hojaldre', cat:'Acompañamientos', price:'$4.000', desc:'', tags:["dia"], img:'https://images.unsplash.com/photo-1604908177522-4297c7c1e05a?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Sándwich sencillo jamón y queso', cat:'Acompañamientos', price:'$7.000', desc:'', tags:["dia"], img:'https://images.unsplash.com/photo-1604908177522-4297c7c1e05a?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Capuccino Fee-kids', cat:'Kids', price:'$11.000', desc:'', tags:["dia"], img:'https://images.unsplash.com/photo-1563805042-7684c019e1cb?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Moca Fee-kids', cat:'Kids', price:'$12.000', desc:'', tags:["dia"], img:'https://images.unsplash.com/photo-1563805042-7684c019e1cb?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Submarino M&M', cat:'Kids', price:'$10.000', desc:'Leche texturizada y chocolates M&M.', tags:["dia"], img:'https://images.unsplash.com/photo-1563805042-7684c019e1cb?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Submarino Burbuja', cat:'Kids', price:'$10.000', desc:'Leche texturizada y burbujas de chocolate.', tags:["dia"], img:'https://images.unsplash.com/photo-1563805042-7684c019e1cb?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Chocolate Fee-kids', cat:'Kids', price:'$13.000', desc:'Chantilli, grajeas de colores y masmelos.', tags:["dia"], img:'https://images.unsplash.com/photo-1563805042-7684c019e1cb?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Copa de helado', cat:'Kids', price:'$12.000', desc:'', tags:["dia"], img:'https://images.unsplash.com/photo-1563805042-7684c019e1cb?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Brownie con helado', cat:'Kids', price:'$14.000', desc:'', tags:["dia"], img:'https://images.unsplash.com/photo-1563805042-7684c019e1cb?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Granizado junior de frutas', cat:'Kids', price:'$9.000', desc:'', tags:["dia"], img:'https://images.unsplash.com/photo-1563805042-7684c019e1cb?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Helado crazy (Chocolate liquido, leche', cat:'Kids', price:'$18.000', desc:'condensada, 2 bolas de helado, gomas, chantillí, masmelos, grajeas de colores, chocolatina y barquillo)', tags:["dia"], img:'https://images.unsplash.com/photo-1563805042-7684c019e1cb?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Picada al Barril (2 personas)', cat:'Carnes al Barril', price:'$35.000', desc:'Seleccion de carnes de res, cerdo, pollo y chorizo artesanal acompañados papa criolla, palitos de yuca y plátano maduro con guacamole fresco y ají.', tags:["noche"], img:'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Picada grande al Barril', cat:'Carnes al Barril', price:'$70.000', desc:'Selección de carnes de res, cerdo, pollo y chorizo artesanal acompañados papa criolla, palitos de yuca y plátano maduro con guacamole fresco y ají.', tags:["noche"], img:'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Sándwich al Barril', cat:'Carnes al Barril', price:'$22.000', desc:'Delicioso pan cargado con carnes mixtas, vegetales frescos y un toque cremoso de salsa de ajo, acompañado de papas a la francesa doradas y crujientes.', tags:["noche"], img:'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Chinchulines de la Casa', cat:'Carnes al Barril', price:'$30.000', desc:'Un plato audaz y lleno de carácter, preparados con el sello de la casa, servido con papa criolla, arepa y chorizo artesanal.', tags:["noche"], img:'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Salchipapa tradicional', cat:'Carnes al Barril', price:'$12.000', desc:'Sencilla y deliciosa papas a la francesa, salchichas crujientes y aderezo de la casa.', tags:["noche"], img:'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Salchipapa Gratinada', cat:'Carnes al Barril', price:'$28.000', desc:'Llena de sabor, que combina papas a la francesa, acompañada con carnes al barril, chorizo artesanal, queso doble crema y un toque dulce del plátano caramelizado y aderezo de la casa.', tags:["noche"], img:'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Shawarma', cat:'Carnes al Barril', price:'$20.000', desc:'Una explosión envolvente entre pollo marinado, vegetales crocantes y salsa cremosa de ajo.', tags:["noche"], img:'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Nachos al Barril', cat:'Carnes al Barril', price:'$23.000', desc:'Totopos crujientes con carnes jugosas, molo de frijol y quesos derretidos que conquistan desde el primer bocado.', tags:["top", "noche"], img:'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Hamburguesa tradicional', cat:'Carnes al Barril', price:'$18.000', desc:'Pan artesanal, carne al barril, queso y papa a la francesa.', tags:["top", "noche"], img:'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Hamburgueza al Barril (tocineta y café)', cat:'Carnes al Barril', price:'$24.000', desc:'Pan artesanal, carne al barril, queso doble crema, papas a la francesa y una salsa de tocineta y café.', tags:["noche"], img:'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Chorizos al Barril', cat:'Carnes al Barril', price:'$28.000', desc:'Selección de chorizos artesanales, acompañado con salchica picante, y papa al vapor.', tags:["noche"], img:'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Filete al Barril ( cerdo o pollo )', cat:'Carnes al Barril', price:'$38.000', desc:'Jugoso filete acompañado de papa al vapor, trocitos de plátano caramelizado y aderezo de la casa.', tags:["noche"], img:'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Ceviche de chicharron', cat:'Carnes al Barril', price:'$21.000', desc:'Selección de chicharro crocante, acompañado de patacones', tags:["noche"], img:'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Alitas en salsa teryaki (10 alitas)', cat:'Carnes al Barril', price:'$26.000', desc:'Deliciosas Alitas marinadas en salsa dulce a base de miel, jengibre y soya, acompañada con papa a la francesa y salsa de la casa.', tags:["noche"], img:'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Alitas Picantes (10 alitas)', cat:'Carnes al Barril', price:'$28.000', desc:'Deliciosas Alitas crujientes banadas en salsa picante servidas tradicionalmente con papa a la francesa y salsa de la casa.', tags:["noche"], img:'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Hervido Zanahoria y Uchuva', cat:'Cocteles', price:'$18.000', desc:'Hervido Vinotinto y Flor de Jamaica Hervido Espresso Especiado Jarra de Hervidos: $60.000 Copa: $ 14.000 Vino Vintage Calcifer Vino caliente Jarra: $30.000 Copa: $12.000 Daiquiri de Mango', tags:["noche"], img:'https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Eclipse Azul', cat:'Cocteles', price:'$20.000', desc:'', tags:["noche"], img:'https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Adios Motherfucker', cat:'Cocteles', price:'$20.000', desc:'', tags:["noche"], img:'https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Pantera Rosa', cat:'Cocteles', price:'$18.000', desc:'', tags:["top", "noche"], img:'https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Cuba Libre', cat:'Cocteles', price:'$15.000', desc:'', tags:["noche"], img:'https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Mojito de Kiwi', cat:'Cocteles', price:'$20.000', desc:'', tags:["noche"], img:'https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Cósmico Verde', cat:'Cocteles', price:'$11.000', desc:'', tags:["noche"], img:'https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Cósmico Rosado', cat:'Cocteles', price:'$11.000', desc:'', tags:["noche"], img:'https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Pecera Borracha', cat:'Cocteles', price:'$30.000', desc:'', tags:["noche"], img:'https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Club Colombia', cat:'Cervezas', price:'$10.000', desc:'', tags:["top", "noche"], img:'https://images.unsplash.com/photo-1532635202-8b7b5f5a0a8f?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Corona', cat:'Cervezas', price:'$10.000', desc:'', tags:["top", "noche"], img:'https://images.unsplash.com/photo-1532635202-8b7b5f5a0a8f?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Budweiser', cat:'Cervezas', price:'$10.000', desc:'', tags:["noche"], img:'https://images.unsplash.com/photo-1532635202-8b7b5f5a0a8f?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Stella Artois', cat:'Cervezas', price:'$10.000', desc:'', tags:["noche"], img:'https://images.unsplash.com/photo-1532635202-8b7b5f5a0a8f?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Smirnoff ice', cat:'Cervezas', price:'$12.000', desc:'', tags:["noche"], img:'https://images.unsplash.com/photo-1532635202-8b7b5f5a0a8f?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Cerveza Aurora', cat:'Cerveza Especial', price:'$16.000', desc:'', tags:["noche"], img:'https://images.unsplash.com/photo-1513189737554-b1bbd839b9f3?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Cerveza Susurro', cat:'Cerveza Especial', price:'$18.000', desc:'', tags:["noche"], img:'https://images.unsplash.com/photo-1513189737554-b1bbd839b9f3?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Cerveza Escarlata', cat:'Cerveza Especial', price:'$18.000', desc:'', tags:["noche"], img:'https://images.unsplash.com/photo-1513189737554-b1bbd839b9f3?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Cerveza Cáliz', cat:'Cerveza Especial', price:'$15.000', desc:'', tags:["noche"], img:'https://images.unsplash.com/photo-1513189737554-b1bbd839b9f3?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Destello Especiado', cat:'Cerveza Especial', price:'$10.000', desc:'', tags:["noche"], img:'https://images.unsplash.com/photo-1513189737554-b1bbd839b9f3?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Carajillo', cat:'Café con Licor', price:'$18.000', desc:'Refrescante y potente combinado con licor.', tags:["noche"], img:'https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Irish Coffee', cat:'Café con Licor', price:'$25.000', desc:'Aromático y equilibrado mezclado con whisk.', tags:["noche"], img:'https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Baileys Coffee', cat:'Café con Licor', price:'$25.000', desc:'Sedoso y aromático, mezclado con Baileys.', tags:["noche"], img:'https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Blue Coffee', cat:'Café con Licor', price:'$22.000', desc:'Sorprendente y refrescante, combinado con Blue Curaçao.', tags:["noche"], img:'https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Aguardiente Nariño', cat:'Licores Tradicionales', price:'$120.000', desc:'', tags:["noche"], img:'https://images.unsplash.com/photo-1514362545857-3bc16c4c2d1b?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Aguardiente Antioqueño', cat:'Licores Tradicionales', price:'$120.000', desc:'', tags:["noche"], img:'https://images.unsplash.com/photo-1514362545857-3bc16c4c2d1b?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Aguardiente Amarillo', cat:'Licores Tradicionales', price:'$130.000', desc:'', tags:["noche"], img:'https://images.unsplash.com/photo-1514362545857-3bc16c4c2d1b?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Ron', cat:'Licores Tradicionales', price:'$120.000', desc:'', tags:["noche"], img:'https://images.unsplash.com/photo-1514362545857-3bc16c4c2d1b?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Ron Edición Especial', cat:'Licores Tradicionales', price:'$140.000', desc:'', tags:["noche"], img:'https://images.unsplash.com/photo-1514362545857-3bc16c4c2d1b?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Brandy con Leche', cat:'Licores Tradicionales', price:'$15.000', desc:'', tags:["noche"], img:'https://images.unsplash.com/photo-1514362545857-3bc16c4c2d1b?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Los Cuates (personal)', cat:'Licores Importados', price:'$11.000', desc:'', tags:["noche"], img:'https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Vodka Absolut', cat:'Licores Importados', price:'$200.000', desc:'', tags:["noche"], img:'https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Vodka Absolut citron', cat:'Licores Importados', price:'$200.000', desc:'', tags:["noche"], img:'https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Vodka Smirnoff tamarindo y lulo', cat:'Licores Importados', price:'$150.000', desc:'', tags:["noche"], img:'https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Tequila José Cuervo tradicional', cat:'Licores Importados', price:'$200.000', desc:'', tags:["noche"], img:'https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Tequila José Cuervo botella', cat:'Licores Importados', price:'$160.000', desc:'', tags:["noche"], img:'https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Tequila El Jimador', cat:'Licores Importados', price:'$200.000', desc:'', tags:["noche"], img:'https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Tequila el Patron', cat:'Licores Importados', price:'$530.000', desc:'', tags:["noche"], img:'https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Tequila Don Julio', cat:'Licores Importados', price:'$430.000', desc:'', tags:["noche"], img:'https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Tequila Don julio 70', cat:'Licores Importados', price:'$630.000', desc:'', tags:["noche"], img:'https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Tequila Don Julio Reposado', cat:'Licores Importados', price:'$430.000', desc:'', tags:["noche"], img:'https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Tequila Don Julio Añejo', cat:'Licores Importados', price:'$430.000', desc:'', tags:["noche"], img:'https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Tequila Olmeca', cat:'Licores Importados', price:'$160.000', desc:'', tags:["noche"], img:'https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Whisky Buchanans Delux 12', cat:'Licores Importados', price:'$280.000', desc:'', tags:["noche"], img:'https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Whisky Buchanans master', cat:'Licores Importados', price:'$330.000', desc:'', tags:["noche"], img:'https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Whisky Buchanans especial 18', cat:'Licores Importados', price:'$530.000', desc:'', tags:["noche"], img:'https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Whisky Jack Daniels (Todas las', cat:'Licores Importados', price:'$260.000', desc:'referencias)', tags:["noche"], img:'https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Whisky Something Special', cat:'Licores Importados', price:'$150.000', desc:'', tags:["noche"], img:'https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Whisky Red Label', cat:'Licores Importados', price:'$150.000', desc:'', tags:["noche"], img:'https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Whisky Chivas Regal', cat:'Licores Importados', price:'$260.000', desc:'', tags:["noche"], img:'https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Whisky Jagermeister', cat:'Licores Importados', price:'$200.000', desc:'', tags:["noche"], img:'https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Whisky Ballantines', cat:'Licores Importados', price:'$150.000', desc:'', tags:["noche"], img:'https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Crema de Whisky Baileys', cat:'Licores Importados', price:'$150.000', desc:'', tags:["noche"], img:'https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Champaña jp chenet', cat:'Licores Importados', price:'$150.000', desc:'', tags:["noche"], img:'https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Vino casillero del diablo', cat:'Licores Importados', price:'$150.000', desc:'', tags:["noche"], img:'https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Vino gato negro', cat:'Licores Importados', price:'$140.000', desc:'', tags:["noche"], img:'https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Red Bull', cat:'Para Acompañar', price:'$12.000', desc:'', tags:["noche"], img:'https://images.unsplash.com/photo-1584515933487-779824d29309?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Monster', cat:'Para Acompañar', price:'$12.000', desc:'', tags:["noche"], img:'https://images.unsplash.com/photo-1584515933487-779824d29309?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Electrolit', cat:'Para Acompañar', price:'$13.000', desc:'', tags:["noche"], img:'https://images.unsplash.com/photo-1584515933487-779824d29309?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Soda Schweppes', cat:'Para Acompañar', price:'$10.000', desc:'', tags:["noche"], img:'https://images.unsplash.com/photo-1584515933487-779824d29309?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Agua manantial', cat:'Para Acompañar', price:'$8.000', desc:'', tags:["noche"], img:'https://images.unsplash.com/photo-1584515933487-779824d29309?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Gatorade', cat:'Para Acompañar', price:'$10.000', desc:'', tags:["noche"], img:'https://images.unsplash.com/photo-1584515933487-779824d29309?auto=format&fit=crop&w=1200&q=60'},
+  {name:'Coca-Cola', cat:'Para Acompañar', price:'$10.000', desc:'', tags:["noche"], img:'https://images.unsplash.com/photo-1584515933487-779824d29309?auto=format&fit=crop&w=1200&q=60'}
+];
+
+const $ = (id)=>document.getElementById(id);
+const rowsEl = $("rows");
+const chipsEl = $("chips");
+const qEl = $("q");
+const countEl = $("count");
+const modeEl = $("mode");
+const momentTxt = $("momentTxt");
+
+function getMoment() {
+  const h = new Date().getHours();
+  if (h >= 6 && h < 17) return "dia";
+  return "noche";
+}
+const MOMENTO = getMoment();
+modeEl.textContent = MOMENTO === "dia" ? "Modo: ☕ Cafetería (Día)" : "Modo: 🍸 Bar (Noche)";
+momentTxt.textContent = MOMENTO === "dia"
+  ? "Recomendado para esta hora: desayunos, café y postres."
+  : "Recomendado para esta hora: carnes al barril, cocteles y licores.";
+
+function uniqCats() {
+  const set = new Set(products.map(p=>p.cat));
+  const arr = Array.from(set).sort((a,b)=>a.localeCompare(b,"es"));
+  return ["Todas", ...arr];
+}
+
+let ACTIVE_CAT = "Todas";
+
+function renderChips() {
+  const cats = uniqCats();
+  chipsEl.innerHTML = cats.map(c=>`<button class="chip ${c===ACTIVE_CAT?'active':''}" data-cat="${c}">${c}</button>`).join("");
+  chipsEl.querySelectorAll(".chip").forEach(btn=>{
+    btn.onclick = ()=>{
+      ACTIVE_CAT = btn.dataset.cat;
+      render();
+      renderChips();
+      window.scrollTo({top:0, behavior:"smooth"});
+    };
+  });
+}
+
+function normalize(s) {
+  return (s||"").toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu,"");
+}
+
+function filteredBase() {
+  const term = normalize(qEl.value.trim());
+  return products.filter(p=>{
+    if (ACTIVE_CAT !== "Todas" && p.cat !== ACTIVE_CAT) return false;
+    if (!term) return true;
+    const hay = normalize(`${p.name} ${p.cat} ${p.desc} ${p.price}`);
+    return hay.includes(term);
+  });
+}
+
+function makeCard(p, idx=null, rank=null) {
+  const badge = (p.tags||[]).includes("top") ? `<div class="badge top">TOP</div>` : "";
+  const rankHTML = (rank!==null) ? `<div class="rank">${rank}</div>` : "";
+  const extraClass = (rank!==null) ? "card top10" : "card";
+  return `
+    <div class="${extraClass}" data-id="${idx}">
+      <div class="poster">
+        ${badge}
+        ${rankHTML}
+        <img src="${p.img}" alt="">
+        <div class="metaCard">
+          <p class="name">${p.name}</p>
+          <div class="price">${p.price}</div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function openProduct(p) {
+  $("mImg").src = p.img;
+  $("mName").textContent = p.name;
+  $("mCat").textContent = p.cat + (MESA ? ` · Mesa ${MESA}` : "");
+  $("mPrice").textContent = p.price;
+  $("mDesc").textContent = p.desc || "—";
+
+  const mesaTxt = MESA ? ` (Mesa ${MESA})` : "";
+  const msg = encodeURIComponent(`Hola 👋 Estoy en ${PLACE_NAME}${mesaTxt}. Quiero pedir: ${p.name} (${p.price}).`);
+  $("mBuy").onclick = ()=> window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, "_blank");
+  $("modal").style.display = "flex";
+}
+$("close").onclick = ()=> $("modal").style.display="none";
+$("modal").addEventListener("click", (e)=>{ if(e.target.id==="modal") $("modal").style.display="none"; });
+
+function bindRow(rowId, list) {
+  const row = document.getElementById(rowId);
+  if(!row) return;
+  Array.from(row.querySelectorAll(".card")).forEach((el, i)=>{
+    el.onclick = ()=> openProduct(list[i]);
+  });
+}
+
+function rowsForMoment() {
+  if (MOMENTO === "dia") {
+    return [
+      {title:"🔥 Top del día", subtitle:"Los más pedidos", filter:(p)=> (p.tags||[]).includes("top") && (p.tags||[]).includes("dia") },
+      {title:"☕ Café de Especialidad", subtitle:"Clásicos & especiales", filter:(p)=> p.cat==="Café Especialidad" },
+      {title:"🍳 Desayunos", subtitle:"Para empezar bien", filter:(p)=> p.cat==="Desayunos" || p.cat==="Omelettes" },
+      {title:"🧊 Bebidas Frías", subtitle:"Limonadas, sodas, jugos…", filter:(p)=> p.cat==="Bebidas Frías" || p.cat==="Café Frío" },
+      {title:"🍰 Pastelería", subtitle:"Postres y antojos", filter:(p)=> p.cat==="Pastelería" },
+      {title:"🧒 Kids & Acompañamientos", subtitle:"Para todos", filter:(p)=> p.cat==="Kids" || p.cat==="Acompañamientos" },
+    ];
+  }
+  return [
+    {title:"🔟 Top 10 de la noche", subtitle:"Modo bar", filter:(p)=> (p.tags||[]).includes("noche") },
+    {title:"🍔 Carnes al Barril", subtitle:"Platos fuertes", filter:(p)=> p.cat==="Carnes al Barril" },
+    {title:"🍹 Cocteles", subtitle:"Clásicos & de autor", filter:(p)=> p.cat==="Cocteles" },
+    {title:"🍺 Cervezas", subtitle:"Tradicional & especial", filter:(p)=> p.cat==="Cervezas" || p.cat==="Cerveza Especial" },
+    {title:"🥃 Licores", subtitle:"Tradicionales & importados", filter:(p)=> p.cat==="Licores Tradicionales" || p.cat==="Licores Importados" },
+    {title:"🥤 Para Acompañar", subtitle:"Mixers y energizantes", filter:(p)=> p.cat==="Para Acompañar" },
+    {title:"☕ Café con Licor", subtitle:"Para cerrar", filter:(p)=> p.cat==="Café con Licor" },
+  ];
+}
+
+function render() {
+  const base = filteredBase();
+  countEl.textContent = `${base.length} item(s)`;
+
+  if (qEl.value.trim()) {
+    rowsEl.innerHTML = `
+      <div class="row">
+        <div class="rowTitle">
+          <h2>🔎 Resultados</h2>
+          <div class="hint">Desliza 👈👉</div>
+        </div>
+        <div class="scroller" id="searchRow">
+          ${base.map((p,i)=>makeCard(p,i)).join("")}
+        </div>
+      </div>
+    `;
+    bindRow("searchRow", base);
+    return;
+  }
+
+  const defs = rowsForMoment();
+  const top10List = base.filter(defs[0].filter).slice(0,10);
+
+  rowsEl.innerHTML = defs.map((r, idx)=>{
+    let list = base.filter(r.filter);
+    if (!list.length) return "";
+    if (MOMENTO==="noche" && idx===0) {
+      list = top10List;
+      return `
+        <div class="row">
+          <div class="rowTitle">
+            <h2>${r.title}</h2>
+            <div class="hint">${r.subtitle}</div>
+          </div>
+          <div class="scroller" id="row_${idx}">
+            ${list.map((p,i)=>makeCard(p,i,(i+1))).join("")}
+          </div>
+        </div>
+      `;
+    }
+    return `
+      <div class="row">
+        <div class="rowTitle">
+          <h2>${r.title}</h2>
+          <div class="hint">${r.subtitle}</div>
+        </div>
+        <div class="scroller" id="row_${idx}">
+          ${list.map((p,i)=>makeCard(p,i)).join("")}
+        </div>
+      </div>
+    `;
+  }).join("");
+
+  defs.forEach((r, idx)=>{
+    let list = base.filter(r.filter);
+    if(!list.length) return;
+    if (MOMENTO==="noche" && idx===0) list = top10List;
+    bindRow(`row_${idx}`, list);
+  });
+}
+
+$("clear").onclick = ()=>{ qEl.value=""; render(); };
+qEl.addEventListener("input", render);
+
+$("wa").onclick = ()=>{
+  const mesaTxt = MESA ? ` (Mesa ${MESA})` : "";
+  const msg = encodeURIComponent(`Hola 👋 Estoy en ${PLACE_NAME}${mesaTxt}. ¿Me ayudas con un pedido?`);
+  window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, "_blank");
+};
+
+renderChips();
+render();
+</script>
+</body>
+</html>
