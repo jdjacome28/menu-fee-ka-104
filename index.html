@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>FEE-KA 104 · Menú Digital</title>
+  <title>FEE-KA 104 · Menú Netflix</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,42 +11,49 @@
 
   <style>
     :root{
-      --bg:#f7f0e6;
-      --paper:#fffaf3;
-      --wine:#4a2341;
-      --coffee:#6f4e37;
-      --ink:#1f2937;
-      --muted:#6b7280;
-      --border:rgba(31,41,55,.12);
-      --shadow:0 14px 34px rgba(0,0,0,.09);
-      --shadow2:0 8px 18px rgba(0,0,0,.08);
+      /* Netflix-ish dark */
+      --bg:#0b0b0f;
+      --bg2:#0f1016;
+      --panel:rgba(18,19,26,.82);
+      --panel2:rgba(18,19,26,.55);
+      --line:rgba(255,255,255,.10);
+      --text:#f3f4f6;
+      --muted:rgba(243,244,246,.70);
+
+      /* FEE-KA accent */
+      --accent:#4a2341;   /* vino */
+      --accent2:#6f4e37;  /* café */
+      --accentGlow:rgba(155,81,224,.14);
+
+      --shadow:0 18px 60px rgba(0,0,0,.55);
+      --shadow2:0 10px 26px rgba(0,0,0,.45);
       --r:18px;
     }
     *{box-sizing:border-box}
     body{
       margin:0;
       font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;
-      color:var(--ink);
+      color:var(--text);
       background:
-        radial-gradient(900px 420px at 10% 0%, rgba(74,35,65,.10), transparent 60%),
-        radial-gradient(900px 420px at 90% 0%, rgba(111,78,55,.10), transparent 60%),
-        var(--bg);
+        radial-gradient(1000px 600px at 10% -10%, rgba(74,35,65,.55), transparent 60%),
+        radial-gradient(900px 520px at 90% -10%, rgba(111,78,55,.45), transparent 60%),
+        linear-gradient(180deg, var(--bg), var(--bg2));
     }
     .wrap{max-width:1180px;margin:auto;padding:16px}
     .shell{
-      background:linear-gradient(180deg, rgba(255,250,243,.98), rgba(255,250,243,.95));
-      border:1px solid rgba(74,35,65,.18);
-      border-radius:24px;
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:26px;
+      background:linear-gradient(180deg, rgba(12,12,18,.72), rgba(12,12,18,.55));
       box-shadow:var(--shadow);
       overflow:hidden;
     }
 
-    /* HEADER */
+    /* Sticky Top */
     .top{
-      position:sticky; top:0; z-index:20;
-      background:rgba(247,240,230,.82);
-      backdrop-filter:blur(10px);
-      border-bottom:1px solid rgba(31,41,55,.08);
+      position:sticky; top:0; z-index:30;
+      background:linear-gradient(180deg, rgba(10,10,14,.92), rgba(10,10,14,.70));
+      backdrop-filter:blur(12px);
+      border-bottom:1px solid rgba(255,255,255,.08);
     }
     .head{
       display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap;
@@ -54,51 +61,66 @@
     }
     .brand{display:flex;gap:12px;align-items:center;min-width:240px}
     .logo{
-      width:54px;height:54px;border-radius:16px;
-      background:linear-gradient(145deg, rgba(74,35,65,.20), rgba(111,78,55,.16));
-      border:1px solid rgba(74,35,65,.20);
+      width:54px;height:54px;border-radius:18px;
+      background:linear-gradient(145deg, rgba(74,35,65,.45), rgba(111,78,55,.34));
+      border:1px solid rgba(255,255,255,.12);
       box-shadow:var(--shadow2);
       display:flex;align-items:center;justify-content:center;
       overflow:hidden;
+      position:relative;
+    }
+    .logo:after{
+      content:"";
+      position:absolute; inset:-20%;
+      background:radial-gradient(circle at 30% 30%, rgba(255,255,255,.18), transparent 55%);
+      transform:rotate(10deg);
+      pointer-events:none;
     }
     .logoTxt{
       font-family:Cinzel,serif;
       font-weight:700;
-      color:var(--wine);
-      letter-spacing:.6px;
-      font-size:16px;
-      line-height:1.05;
+      letter-spacing:.8px;
       text-align:center;
+      line-height:1.05;
       user-select:none;
+      color:#fff;
+      text-shadow:0 10px 26px rgba(0,0,0,.45);
+      font-size:16px;
     }
     .logoTxt small{
       display:block;
       font-family:Inter,sans-serif;
       font-weight:900;
       font-size:11px;
-      color:rgba(111,78,55,.92);
+      opacity:.9;
       margin-top:3px;
       letter-spacing:.2px;
     }
     h1{
       margin:0;
-      font-family:Cinzel,serif;
-      font-size:18px;
-      color:var(--wine);
-      letter-spacing:.6px;
+      font-family:Inter,system-ui;
+      font-size:16px;
+      font-weight:950;
+      letter-spacing:.2px;
     }
-    .sub{margin:4px 0 0 0;font-size:12px;color:rgba(31,41,55,.70)}
+    .sub{margin:5px 0 0 0;font-size:12px;color:var(--muted)}
     .searchRow{flex:1;min-width:240px;display:flex;gap:10px;justify-content:flex-end;align-items:center}
+
     .search{
       width:100%;max-width:560px;
       padding:12px 14px;
-      border:1px solid rgba(31,41,55,.12);
+      border:1px solid rgba(255,255,255,.10);
       border-radius:14px;
-      background:rgba(255,255,255,.90);
+      background:rgba(18,19,26,.65);
       outline:none;
       font-size:14px;
+      color:var(--text);
     }
-    .search:focus{border-color:rgba(74,35,65,.30);box-shadow:0 0 0 4px rgba(74,35,65,.10)}
+    .search::placeholder{color:rgba(243,244,246,.55)}
+    .search:focus{
+      border-color:rgba(255,255,255,.18);
+      box-shadow:0 0 0 4px rgba(74,35,65,.25);
+    }
 
     .meta{
       display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;
@@ -106,131 +128,222 @@
     }
     .pill{
       font-size:12px;
-      color:rgba(31,41,55,.72);
-      background:rgba(255,255,255,.75);
-      border:1px solid rgba(31,41,55,.10);
+      color:rgba(243,244,246,.80);
+      background:rgba(18,19,26,.55);
+      border:1px solid rgba(255,255,255,.08);
       padding:8px 10px;
       border-radius:999px;
     }
     .btn{
       border:none;
-      background:rgba(111,78,55,.92);
+      background:linear-gradient(135deg, rgba(74,35,65,.95), rgba(111,78,55,.88));
       color:#fff;
+      padding:10px 12px;
+      border-radius:999px;
+      font-weight:950;
+      cursor:pointer;
+      display:inline-flex;gap:8px;align-items:center;
+      box-shadow:0 12px 30px rgba(0,0,0,.35);
+    }
+    .btn.ghost{
+      background:rgba(18,19,26,.55);
+      color:rgba(243,244,246,.92);
+      border:1px solid rgba(255,255,255,.10);
+      box-shadow:none;
+    }
+
+    /* Chips */
+    .catsWrap{padding:0 16px 14px 16px}
+    .chips{
+      display:flex; gap:10px; flex-wrap:wrap;
+    }
+    .chip{
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(18,19,26,.55);
       padding:10px 12px;
       border-radius:999px;
       font-weight:900;
-      cursor:pointer;
-      display:inline-flex;gap:8px;align-items:center;
-    }
-    .btn.ghost{
-      background:rgba(255,255,255,.78);
-      color:rgba(31,41,55,.90);
-      border:1px solid rgba(31,41,55,.10);
-    }
-
-    /* CATEGORIES (chips) */
-    .catsWrap{padding:0 16px 12px 16px}
-    .catsTop{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:8px}
-    .catsTop .hint{font-size:12px;color:rgba(31,41,55,.62)}
-    .chips{display:flex;flex-wrap:wrap;gap:10px}
-    .chip{
-      border:1px solid rgba(31,41,55,.12);
-      background:rgba(255,255,255,.78);
-      padding:10px 12px;
-      border-radius:999px;
-      font-weight:800;
       font-size:13px;
       cursor:pointer;
-      display:inline-flex;gap:8px;align-items:center;
+      color:rgba(243,244,246,.90);
       user-select:none;
-      white-space:nowrap;
     }
     .chip.active{
-      background:rgba(74,35,65,.92);
-      border-color:rgba(74,35,65,.10);
-      color:#fff;
+      background:rgba(243,244,246,.95);
+      color:rgba(10,10,14,.95);
+      border-color:rgba(255,255,255,.18);
     }
 
-    /* ROWS (Netflix) */
+    /* Rows */
     .content{padding:10px 0 18px 0}
-    .row{padding:0 16px;margin-bottom:18px}
-    .rowTitle{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:0 0 10px 0}
-    .rowTitle h2{margin:0;font-size:14px;letter-spacing:.2px;color:rgba(31,41,55,.92)}
-    .hint{font-size:12px;color:rgba(31,41,55,.62)}
+    .row{padding:0 16px;margin-bottom:20px;position:relative}
+    .rowTitle{
+      display:flex;align-items:flex-end;justify-content:space-between;gap:10px;flex-wrap:wrap;
+      margin:0 0 10px 0;
+    }
+    .rowTitle h2{
+      margin:0;
+      font-size:14px;
+      font-weight:950;
+      letter-spacing:.2px;
+    }
+    .hint{font-size:12px;color:rgba(243,244,246,.62)}
+
     .scroller{
-      display:flex;gap:12px;overflow-x:auto;padding-bottom:6px;
-      scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;
+      display:flex;gap:12px;
+      overflow-x:auto;
+      padding-bottom:8px;
+      scroll-snap-type:x mandatory;
+      -webkit-overflow-scrolling:touch;
     }
     .scroller::-webkit-scrollbar{height:8px}
-    .scroller::-webkit-scrollbar-thumb{background:rgba(74,35,65,.18);border-radius:999px}
+    .scroller::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:999px}
 
-    .card{
-      min-width:170px;max-width:170px;
-      background:rgba(255,255,255,.92);
-      border:1px solid rgba(31,41,55,.10);
-      border-radius:18px;
-      overflow:hidden;
-      box-shadow:0 8px 18px rgba(0,0,0,.06);
-      scroll-snap-align:start;
-      cursor:pointer;
-      transition:transform .12s ease, box-shadow .12s ease;
+    /* Fade edges like Netflix */
+    .row:before,.row:after{
+      content:"";
+      position:absolute; top:34px; bottom:0; width:40px;
+      pointer-events:none;
+      z-index:5;
     }
-    .card:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(0,0,0,.08)}
-    .thumb{height:112px;background:#ddd;position:relative}
-    .thumb img{width:100%;height:100%;object-fit:cover;display:block}
-    .badge{
-      position:absolute;left:10px;bottom:10px;
-      background:rgba(0,0,0,.62);
-      color:#fff;
+    .row:before{
+      left:16px;
+      background:linear-gradient(90deg, rgba(11,11,15,1), rgba(11,11,15,0));
+    }
+    .row:after{
+      right:16px;
+      background:linear-gradient(270deg, rgba(11,11,15,1), rgba(11,11,15,0));
+    }
+
+    /* Poster card (Netflix) */
+    .card{
+      min-width:168px;
+      max-width:168px;
+      border-radius:16px;
+      overflow:hidden;
+      cursor:pointer;
+      scroll-snap-align:start;
+      background:rgba(18,19,26,.45);
+      border:1px solid rgba(255,255,255,.08);
+      box-shadow:0 10px 26px rgba(0,0,0,.35);
+      transform:translateZ(0);
+      transition:transform .14s ease, box-shadow .14s ease;
+      position:relative;
+    }
+    .poster{
+      height:220px;
+      background:#222;
+      position:relative;
+    }
+    .poster img{
+      width:100%; height:100%; object-fit:cover; display:block;
+      filter:saturate(1.08) contrast(1.02);
+    }
+    .poster:after{
+      content:"";
+      position:absolute; inset:0;
+      background:linear-gradient(180deg, rgba(0,0,0,.05), rgba(0,0,0,.0) 45%, rgba(0,0,0,.70));
+      pointer-events:none;
+    }
+    .metaCard{
+      position:absolute; left:10px; right:10px; bottom:10px;
+      z-index:3;
+    }
+    .name{
+      margin:0;
+      font-size:13px;
+      font-weight:950;
+      line-height:1.15;
+      text-shadow:0 10px 24px rgba(0,0,0,.55);
+    }
+    .price{
+      margin-top:6px;
+      font-weight:950;
+      color:rgba(243,244,246,.92);
+      opacity:.98;
+      text-shadow:0 10px 24px rgba(0,0,0,.55);
+      font-size:13px;
+    }
+    .tag{
+      position:absolute; top:10px; left:10px;
       padding:6px 9px;
       border-radius:999px;
       font-size:11px;
+      font-weight:950;
+      color:#fff;
+      background:rgba(0,0,0,.55);
       backdrop-filter:blur(6px);
+      border:1px solid rgba(255,255,255,.10);
+      z-index:4;
     }
-    .info{padding:10px 10px 12px 10px}
-    .name{font-weight:900;font-size:13px;line-height:1.15;margin:0}
-    .price{margin-top:6px;font-weight:950;color:var(--wine);font-size:13px}
+    .tag.top{
+      background:linear-gradient(135deg, rgba(74,35,65,.95), rgba(111,78,55,.88));
+      border-color:rgba(255,255,255,.16);
+    }
+    .tag.new{
+      background:rgba(245,158,11,.92); /* amber */
+      color:#1a1200;
+      border-color:rgba(255,255,255,.22);
+    }
 
-    /* MODAL */
+    /* Hover zoom like Netflix (desktop) */
+    @media (hover:hover){
+      .card:hover{
+        transform:scale(1.06);
+        z-index:10;
+        box-shadow:0 18px 40px rgba(0,0,0,.55);
+      }
+    }
+
+    /* Modal (bottom sheet) */
     .modal{
       position:fixed; inset:0;
       display:none;
       align-items:flex-end;
       justify-content:center;
-      background:rgba(0,0,0,.45);
+      background:rgba(0,0,0,.55);
       z-index:999;
     }
     .sheet{
-      width:min(560px, 100%);
-      background:#fff;
+      width:min(620px, 100%);
+      background:linear-gradient(180deg, rgba(18,19,26,.98), rgba(18,19,26,.92));
+      border:1px solid rgba(255,255,255,.10);
       border-radius:22px 22px 0 0;
       overflow:hidden;
-      box-shadow:0 24px 70px rgba(0,0,0,.28);
+      box-shadow:0 24px 80px rgba(0,0,0,.70);
+      color:var(--text);
     }
-    .sheetImg{height:240px;background:#ddd}
+    .sheetImg{height:240px;background:#222;position:relative}
     .sheetImg img{width:100%;height:100%;object-fit:cover;display:block}
+    .sheetImg:after{
+      content:"";
+      position:absolute; inset:0;
+      background:linear-gradient(180deg, rgba(0,0,0,.10), rgba(0,0,0,.70));
+      pointer-events:none;
+    }
     .sheetBody{padding:14px 16px 16px 16px}
     .sheetTop{display:flex;gap:10px;justify-content:space-between;align-items:flex-start}
     .sheetTop .t{flex:1}
-    .sheetName{font-weight:950;font-size:16px;margin:0;color:rgba(31,41,55,.95)}
-    .sheetCat{font-size:12px;color:rgba(31,41,55,.62);margin-top:4px}
-    .sheetPrice{font-weight:950;color:var(--wine);white-space:nowrap}
+    .sheetName{font-weight:950;font-size:16px;margin:0}
+    .sheetCat{font-size:12px;color:rgba(243,244,246,.65);margin-top:4px}
+    .sheetPrice{font-weight:950;white-space:nowrap;opacity:.95}
     .x{
-      border:none;background:rgba(31,41,55,.06);
+      border:none;background:rgba(255,255,255,.08);
       width:38px;height:38px;border-radius:999px;cursor:pointer;
-      font-size:18px;
+      font-size:18px;color:var(--text);
     }
-    .sheetDesc{margin-top:10px;font-size:13px;line-height:1.35;color:rgba(31,41,55,.88)}
+    .sheetDesc{margin-top:10px;font-size:13px;line-height:1.35;color:rgba(243,244,246,.88)}
     .sheetActions{margin-top:12px;display:flex;gap:10px}
     .sheetActions .btn{width:100%;justify-content:center}
-    .note{padding:0 16px 16px 16px;color:rgba(31,41,55,.60);font-size:12px}
 
-    /* MOBILE IMPROVEMENTS */
+    .note{padding:0 16px 16px 16px;color:rgba(243,244,246,.58);font-size:12px}
+
     @media (max-width:600px){
       .card{min-width:160px;max-width:160px}
-      .thumb{height:108px}
+      .poster{height:210px}
       .sheetImg{height:220px}
       .chip{padding:8px 10px;font-size:12px}
+      .row:before,.row:after{width:26px}
     }
   </style>
 </head>
@@ -243,12 +356,12 @@
         <div class="head">
           <div class="brand">
             <div class="logo">
-              <!-- Si luego te pasan el logo real, reemplaza esto por <img src="logo.png" style="width:100%;height:100%;object-fit:cover"> -->
+              <!-- Si te dan logo real: <img src="logo.png" style="width:100%;height:100%;object-fit:cover"> -->
               <div class="logoTxt">FEE-KA<small>104 · CAFÉ</small></div>
             </div>
             <div>
-              <h1>Menú Digital · Estilo Netflix</h1>
-              <p class="sub" id="momentTxt">Explora por recomendaciones ☕🍰</p>
+              <h1>Menú Digital · Netflix Mode</h1>
+              <p class="sub" id="momentTxt">Cargando recomendaciones…</p>
             </div>
           </div>
 
@@ -266,10 +379,6 @@
         </div>
 
         <div class="catsWrap">
-          <div class="catsTop">
-            <div class="pill" id="catState">Categoría: Todas</div>
-            <div class="hint" id="catsHint">Tip: toca una categoría para filtrar</div>
-          </div>
           <div class="chips" id="chips"></div>
         </div>
       </div>
@@ -277,7 +386,7 @@
       <div class="content" id="rows"></div>
 
       <div class="note">
-        Demo: filas tipo Netflix + recomendación por hora + filtro por categoría + búsqueda + pedido por WhatsApp.
+        Demo Netflix oscuro + recomendaciones por hora. Se reemplazan imágenes por fotos reales del negocio.
       </div>
     </div>
   </div>
@@ -305,15 +414,12 @@
 
 <script>
 /* ========= CONFIG ========= */
-const WHATSAPP_NUMBER = "57XXXXXXXXXX"; // <-- CAMBIA ESTO
+const WHATSAPP_NUMBER = "57XXXXXXXXXX"; // <-- cámbialo
 const PLACE_NAME = "FEE-KA 104";
-
-/* Si quieres QR por mesa: agrega ?mesa=3 al link. Ej:
-   https://tusitio.com/?mesa=3  */
 const params = new URLSearchParams(location.search);
 const MESA = params.get("mesa") ? String(params.get("mesa")) : "";
 
-/* ========= IMÁGENES DEMO (puedes reemplazar por fotos reales) ========= */
+/* ========= DEMO IMAGES ========= */
 const IMG = {
   cafe: "https://images.unsplash.com/photo-1517705008128-361805f42e86?auto=format&fit=crop&w=1200&q=60",
   cold: "https://images.unsplash.com/photo-1528823872057-9c018a7dbab6?auto=format&fit=crop&w=1200&q=60",
@@ -334,12 +440,11 @@ function getMoment(){
 const MOMENTO = getMoment();
 const momentTxt = document.getElementById("momentTxt");
 momentTxt.textContent =
-  MOMENTO === "mañana" ? "Buenos días ☀️ Recomendado: desayunos y café" :
-  MOMENTO === "tarde" ? "Buenas tardes 🌤️ Recomendado: postres y bebidas frías" :
-  "Buenas noches 🌙 Recomendado: platos especiales y cocteles";
+  MOMENTO === "mañana" ? "☀️ Para esta hora: desayunos y café" :
+  MOMENTO === "tarde" ? "🌤️ Para esta hora: postres y bebidas frías" :
+  "🌙 Para esta hora: platos especiales y cocteles";
 
-/* ========= DATOS (DEMO) =========
-   Luego lo conectamos a tu menú real completo. */
+/* ========= DATA (demo) ========= */
 const products = [
   {name:"Tradicional", price:"$10.000", cat:"Desayunos", desc:"Huevos al gusto, café americano y tostadas.", img:IMG.cafe, tags:["top","mañana"]},
   {name:"Huevos Rancheros", price:"$15.000", cat:"Desayunos", desc:"Tocineta, salchicha, huevos, guacamole, café y pan de maíz.", img:IMG.food, tags:["top","mañana"]},
@@ -365,16 +470,14 @@ const products = [
   {name:"Corona", price:"$10.000", cat:"Cervezas", desc:"", img:IMG.beer, tags:["noche"]},
 ];
 
-/* ========= UI ELEMENTS ========= */
+/* ========= UI ========= */
 const rows = document.getElementById("rows");
 const q = document.getElementById("q");
 const count = document.getElementById("count");
 const clearSearch = document.getElementById("clearSearch");
 const waMain = document.getElementById("waMain");
 const chips = document.getElementById("chips");
-const catState = document.getElementById("catState");
 
-/* ========= CATEGORY FILTER ========= */
 let ACTIVE_CAT = "Todas";
 
 function uniqueCats(){
@@ -385,40 +488,34 @@ function renderChips(){
   const cats = uniqueCats();
   chips.innerHTML = cats.map(c => `
     <button class="chip ${c===ACTIVE_CAT ? "active":""}" data-cat="${c}">
-      ${c==="Todas" ? "📚" : "🍽️"} ${c}
+      ${c==="Todas" ? "🎬" : "🍽️"} ${c}
     </button>
   `).join("");
-
   chips.querySelectorAll(".chip").forEach(btn=>{
     btn.addEventListener("click", ()=>{
       ACTIVE_CAT = btn.dataset.cat;
-      catState.textContent = "Categoría: " + ACTIVE_CAT;
-      renderChips();
       render();
-      // scroll suave hacia productos
-      window.scrollTo({top: 0, behavior: "smooth"});
+      renderChips();
+      window.scrollTo({top:0, behavior:"smooth"});
     });
   });
 }
 
-/* ========= ROW DEFINITIONS (Netflix) ========= */
 function rowDefs(){
-  // Si filtraste categoría, creamos filas más simples para no confundir
   if(ACTIVE_CAT !== "Todas"){
     return [
-      {title:"🎬 " + ACTIVE_CAT, subtitle:"Desliza 👈👉", filter:(p)=>p.cat===ACTIVE_CAT},
-      {title:"⭐ Los más pedidos", subtitle:"Lo que más se vende", filter:(p)=>p.cat===ACTIVE_CAT && p.tags.includes("top")},
-      {title:"⏰ Para esta hora", subtitle:"Recomendado automáticamente", filter:(p)=>p.cat===ACTIVE_CAT && p.tags.includes(MOMENTO)},
+      {title:`🎬 ${ACTIVE_CAT}`, subtitle:"Desliza 👈👉", filter:(p)=>p.cat===ACTIVE_CAT},
+      {title:"⭐ Top picks", subtitle:"Lo más pedido", filter:(p)=>p.cat===ACTIVE_CAT && p.tags.includes("top")},
+      {title:"⏰ Para esta hora", subtitle:"Auto", filter:(p)=>p.cat===ACTIVE_CAT && p.tags.includes(MOMENTO)},
     ];
   }
-
   return [
-    {title:"⏰ Para esta hora", subtitle:"Recomendado automáticamente", filter:(p)=>p.tags.includes(MOMENTO)},
-    {title:"⭐ Los más pedidos", subtitle:"Lo que más se vende", filter:(p)=>p.tags.includes("top")},
-    {title:"☕ Recomendados de la casa", subtitle:"Perfectos para antojar", filter:(p)=>p.tags.includes("recomendado")},
+    {title:"⏰ Para esta hora", subtitle:"Auto recomendado", filter:(p)=>p.tags.includes(MOMENTO)},
+    {title:"⭐ Los más pedidos", subtitle:"Top picks", filter:(p)=>p.tags.includes("top")},
+    {title:"☕ Recomendados", subtitle:"De la casa", filter:(p)=>p.tags.includes("recomendado")},
     {title:"🍰 Postres & Café", subtitle:"Dulce + café", filter:(p)=>["Pastelería","Café Especialidad","Café Frío"].includes(p.cat)},
     {title:"🍔 Platos Especiales", subtitle:"Para compartir", filter:(p)=>p.cat==="Platos Especiales"},
-    {title:"🍹 Noche", subtitle:"Cocteles, cervezas y más", filter:(p)=>p.tags.includes("noche")},
+    {title:"🍹 Noche", subtitle:"Cocteles & cervezas", filter:(p)=>p.tags.includes("noche")},
   ];
 }
 
@@ -448,17 +545,19 @@ function openProduct(p){
 closeBtn.onclick = ()=> modal.style.display = "none";
 modal.addEventListener("click", (e)=>{ if(e.target === modal) modal.style.display="none"; });
 
-/* ========= RENDER HELPERS ========= */
 function cardHTML(p){
+  const badge = p.tags.includes("top") ? `<div class="tag top">TOP</div>`
+              : p.tags.includes("nuevo") ? `<div class="tag new">NUEVO</div>`
+              : "";
   return `
     <div class="card">
-      <div class="thumb">
+      <div class="poster">
+        ${badge}
         <img src="${p.img}" alt="">
-        <div class="badge">${p.cat}</div>
-      </div>
-      <div class="info">
-        <p class="name">${p.name}</p>
-        <div class="price">${p.price}</div>
+        <div class="metaCard">
+          <p class="name">${p.name}</p>
+          <div class="price">${p.price}</div>
+        </div>
       </div>
     </div>
   `;
@@ -471,20 +570,17 @@ function bindCards(list, containerId){
   });
 }
 
-/* ========= MAIN RENDER ========= */
 function render(){
   const term = (q.value || "").trim().toLowerCase();
 
-  // BÚSQUEDA: muestra una sola fila
   if(term){
     const filtered = products.filter(p=>{
-      // respeta categoría si está activa
       if(ACTIVE_CAT !== "Todas" && p.cat !== ACTIVE_CAT) return false;
       const s = (p.name + " " + p.cat + " " + (p.desc||"") + " " + p.price).toLowerCase();
       return s.includes(term);
     });
-
     count.textContent = `${filtered.length} resultado(s)`;
+
     rows.innerHTML = `
       <div class="row">
         <div class="rowTitle">
@@ -498,13 +594,8 @@ function render(){
     return;
   }
 
-  // NORMAL: filas Netflix
   const defs = rowDefs();
-  // Para contador: muestra cuántos hay en la categoría (si aplica)
-  const baseCount = (ACTIVE_CAT==="Todas")
-    ? products.length
-    : products.filter(p=>p.cat===ACTIVE_CAT).length;
-
+  const baseCount = (ACTIVE_CAT==="Todas") ? products.length : products.filter(p=>p.cat===ACTIVE_CAT).length;
   count.textContent = `${baseCount} item(s)`;
 
   rows.innerHTML = defs.map((r, idx)=>{
@@ -530,7 +621,6 @@ function render(){
   });
 }
 
-/* ========= ACTIONS ========= */
 clearSearch.onclick = ()=> { q.value=""; render(); };
 q.addEventListener("input", render);
 
@@ -540,11 +630,8 @@ waMain.onclick = ()=>{
   window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, "_blank");
 };
 
-/* INIT */
 renderChips();
 render();
 </script>
 </body>
 </html>
-
-
