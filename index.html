@@ -5,651 +5,546 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>FEE-KA 104 · Menú Digital</title>
 
-  <!-- Tipografías (puedes quitar si prefieres todo local) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 
   <style>
     :root{
-      /* Paleta inspirada en el PDF (beige + vino + café) */
-      --bg:#f7f0e6;          /* crema */
-      --paper:#fffaf3;       /* papel */
-      --wine:#4a2341;        /* vinotinto/morado */
-      --coffee:#6f4e37;      /* café */
-      --ink:#1f2937;         /* texto */
-      --muted:#6b7280;       /* gris */
-      --border:rgba(31,41,55,.10);
-      --shadow:0 12px 30px rgba(0,0,0,.08);
-      --shadow2:0 6px 16px rgba(0,0,0,.08);
-      --radius:18px;
+      --bg:#f7f0e6;
+      --paper:#fffaf3;
+      --wine:#4a2341;
+      --coffee:#6f4e37;
+      --ink:#1f2937;
+      --muted:#6b7280;
+      --border:rgba(31,41,55,.12);
+      --shadow:0 14px 34px rgba(0,0,0,.09);
+      --shadow2:0 8px 18px rgba(0,0,0,.08);
+      --r:18px;
     }
-
-    *{ box-sizing:border-box; }
+    *{box-sizing:border-box}
     body{
       margin:0;
-      font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Helvetica Neue";
-      background:
-        radial-gradient(900px 400px at 10% 0%, rgba(74,35,65,.10), transparent 60%),
-        radial-gradient(900px 420px at 90% 5%, rgba(111,78,55,.10), transparent 60%),
-        var(--bg);
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;
       color:var(--ink);
+      background:
+        radial-gradient(900px 420px at 10% 0%, rgba(74,35,65,.10), transparent 60%),
+        radial-gradient(900px 420px at 90% 0%, rgba(111,78,55,.10), transparent 60%),
+        var(--bg);
     }
-
-    .wrap{ max-width:1180px; margin:auto; padding:18px; }
-
-    /* Marco botánico suave (sin copiar el arte exacto) */
-    .frame{
-      background: linear-gradient(180deg, rgba(255,250,243,.98), rgba(255,250,243,.95));
+    .wrap{max-width:1180px;margin:auto;padding:16px}
+    .shell{
+      background:linear-gradient(180deg, rgba(255,250,243,.98), rgba(255,250,243,.95));
       border:1px solid rgba(74,35,65,.18);
       border-radius:24px;
-      box-shadow: var(--shadow);
+      box-shadow:var(--shadow);
       overflow:hidden;
-      position:relative;
     }
-    .frame::before,
-    .frame::after{
-      content:"";
-      position:absolute;
-      inset:auto;
-      width:240px; height:240px;
-      background:
-        radial-gradient(circle at 30% 30%, rgba(74,35,65,.12), transparent 60%),
-        radial-gradient(circle at 60% 60%, rgba(111,78,55,.12), transparent 60%);
-      filter: blur(0px);
-      opacity:.65;
-      pointer-events:none;
-    }
-    .frame::before{ top:-80px; left:-80px; border-radius: 90px 140px 120px 120px; }
-    .frame::after{ bottom:-90px; right:-90px; border-radius: 140px 120px 90px 120px; }
 
-    /* Topbar sticky */
-    .topbar{
+    /* HEADER */
+    .top{
       position:sticky; top:0; z-index:20;
-      background: rgba(247,240,230,.82);
-      backdrop-filter: blur(10px);
+      background:rgba(247,240,230,.82);
+      backdrop-filter:blur(10px);
       border-bottom:1px solid rgba(31,41,55,.08);
     }
-
-    .header{
-      display:flex; gap:16px; align-items:center; justify-content:space-between; flex-wrap:wrap;
-      padding:16px 18px 12px 18px;
+    .head{
+      display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap;
+      padding:14px 16px 10px 16px;
     }
-
-    .brand{
-      display:flex; gap:12px; align-items:center; min-width:260px;
-    }
-
-    /* Logo (imagen real si existe, si no: tipográfico) */
-    .logoImg{
-      width:54px; height:54px;
-      border-radius:16px;
-      background: linear-gradient(145deg, rgba(74,35,65,.22), rgba(111,78,55,.18));
+    .brand{display:flex;gap:12px;align-items:center;min-width:240px}
+    .logo{
+      width:54px;height:54px;border-radius:16px;
+      background:linear-gradient(145deg, rgba(74,35,65,.20), rgba(111,78,55,.16));
       border:1px solid rgba(74,35,65,.20);
-      box-shadow: var(--shadow2);
-      display:flex; align-items:center; justify-content:center;
+      box-shadow:var(--shadow2);
+      display:flex;align-items:center;justify-content:center;
       overflow:hidden;
     }
-    .logoImg img{
-      width:100%; height:100%; object-fit:cover; display:block;
-    }
-    .logoFallback{
-      font-family:Cinzel, serif;
-      color:var(--wine);
+    .logoTxt{
+      font-family:Cinzel,serif;
       font-weight:700;
-      letter-spacing:.8px;
-      font-size:18px;
-      line-height:1;
+      color:var(--wine);
+      letter-spacing:.6px;
+      font-size:16px;
+      line-height:1.05;
       text-align:center;
       user-select:none;
     }
-    .logoFallback small{
+    .logoTxt small{
       display:block;
-      font-family:Inter, sans-serif;
-      font-weight:800;
+      font-family:Inter,sans-serif;
+      font-weight:900;
       font-size:11px;
-      letter-spacing:.2px;
-      color:rgba(111,78,55,.9);
+      color:rgba(111,78,55,.92);
       margin-top:3px;
+      letter-spacing:.2px;
     }
-
-    .titles h1{
+    h1{
       margin:0;
-      font-family:Cinzel, serif;
-      letter-spacing:.6px;
-      font-size:20px;
+      font-family:Cinzel,serif;
+      font-size:18px;
       color:var(--wine);
+      letter-spacing:.6px;
     }
-    .titles p{
-      margin:4px 0 0 0;
-      font-size:13px;
-      color:rgba(31,41,55,.72);
-    }
-
-    .searchRow{
-      display:flex; gap:10px; align-items:center; justify-content:flex-end;
-      flex:1; min-width:260px;
-    }
+    .sub{margin:4px 0 0 0;font-size:12px;color:rgba(31,41,55,.70)}
+    .searchRow{flex:1;min-width:240px;display:flex;gap:10px;justify-content:flex-end;align-items:center}
     .search{
-      width:100%;
-      max-width:560px;
+      width:100%;max-width:560px;
       padding:12px 14px;
       border:1px solid rgba(31,41,55,.12);
       border-radius:14px;
+      background:rgba(255,255,255,.90);
       outline:none;
-      background:rgba(255,255,255,.9);
-      box-shadow: 0 1px 0 rgba(0,0,0,.02);
       font-size:14px;
     }
-    .search:focus{
-      border-color: rgba(74,35,65,.35);
-      box-shadow: 0 0 0 4px rgba(74,35,65,.10);
-    }
+    .search:focus{border-color:rgba(74,35,65,.30);box-shadow:0 0 0 4px rgba(74,35,65,.10)}
 
-    .chips{
-      display:flex; flex-wrap:wrap; gap:8px;
-      padding:0 18px 14px 18px;
+    .meta{
+      display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;
+      padding:0 16px 12px 16px;
     }
-    .chip{
-      border:1px solid rgba(31,41,55,.12);
-      background: rgba(255,255,255,.88);
-      padding:10px 12px;
-      border-radius:999px;
-      cursor:pointer;
-      font-size:13px;
-      color:rgba(31,41,55,.9);
-      transition: transform .05s ease, background .15s ease, border-color .15s ease;
-      user-select:none;
-      display:flex; gap:8px; align-items:center;
-    }
-    .chip:active{ transform:scale(.98); }
-    .chip:hover{ border-color: rgba(74,35,65,.25); }
-    .chip.active{
-      background: rgba(74,35,65,.92);
-      color:#fff;
-      border-color: rgba(74,35,65,.20);
-    }
-
-    .content{ padding: 14px 18px 18px 18px; }
-
-    .metaRow{
-      display:flex; align-items:center; justify-content:space-between;
-      gap:10px; flex-wrap:wrap;
-      margin-bottom:12px;
-    }
-    .badge{
+    .pill{
       font-size:12px;
       color:rgba(31,41,55,.72);
-      background: rgba(255,255,255,.75);
+      background:rgba(255,255,255,.75);
       border:1px solid rgba(31,41,55,.10);
       padding:8px 10px;
       border-radius:999px;
     }
-    .ctaRow{
-      display:flex; gap:8px; align-items:center; flex-wrap:wrap;
-    }
     .btn{
-      border:1px solid rgba(31,41,55,.12);
-      background: rgba(255,255,255,.85);
+      border:none;
+      background:rgba(111,78,55,.92);
+      color:#fff;
       padding:10px 12px;
       border-radius:999px;
-      cursor:pointer;
-      font-size:13px;
-      text-decoration:none;
-      color:rgba(31,41,55,.92);
-      display:inline-flex; gap:8px; align-items:center;
-    }
-    .btn:hover{ border-color: rgba(74,35,65,.25); }
-    .btn.primary{
-      background: rgba(111,78,55,.92);
-      color:#fff;
-      border-color: rgba(111,78,55,.18);
-    }
-
-    .grid{
-      display:grid;
-      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
-      gap:14px;
-      padding-bottom:10px;
-    }
-    .card{
-      background: rgba(255,255,255,.90);
-      border:1px solid rgba(31,41,55,.10);
-      border-radius: var(--radius);
-      padding:14px;
-      box-shadow: 0 8px 18px rgba(0,0,0,.06);
-      transition: transform .12s ease, box-shadow .12s ease;
-    }
-    .card:hover{
-      transform: translateY(-2px);
-      box-shadow: 0 12px 26px rgba(0,0,0,.08);
-    }
-
-    .cardTop{ display:flex; justify-content:space-between; gap:12px; align-items:flex-start; }
-    .name{
-      font-weight:800;
-      font-size:15px;
-      margin:0;
-      letter-spacing:.1px;
-      color:rgba(31,41,55,.95);
-    }
-    .cat{
-      margin-top:3px;
-      font-size:12px;
-      color:rgba(31,41,55,.55);
-    }
-    .price{
       font-weight:900;
-      color: var(--wine);
-      font-size:15px;
+      cursor:pointer;
+      display:inline-flex;gap:8px;align-items:center;
+    }
+    .btn.ghost{
+      background:rgba(255,255,255,.78);
+      color:rgba(31,41,55,.90);
+      border:1px solid rgba(31,41,55,.10);
+    }
+
+    /* CATEGORIES (chips) */
+    .catsWrap{padding:0 16px 12px 16px}
+    .catsTop{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+    .catsTop .hint{font-size:12px;color:rgba(31,41,55,.62)}
+    .chips{display:flex;flex-wrap:wrap;gap:10px}
+    .chip{
+      border:1px solid rgba(31,41,55,.12);
+      background:rgba(255,255,255,.78);
+      padding:10px 12px;
+      border-radius:999px;
+      font-weight:800;
+      font-size:13px;
+      cursor:pointer;
+      display:inline-flex;gap:8px;align-items:center;
+      user-select:none;
       white-space:nowrap;
     }
-    .desc{
-      margin-top:10px;
-      font-size:13px;
-      color:rgba(31,41,55,.82);
-      line-height:1.35;
+    .chip.active{
+      background:rgba(74,35,65,.92);
+      border-color:rgba(74,35,65,.10);
+      color:#fff;
     }
-    .tagRow{
-      margin-top:10px;
-      display:flex; gap:8px; flex-wrap:wrap;
+
+    /* ROWS (Netflix) */
+    .content{padding:10px 0 18px 0}
+    .row{padding:0 16px;margin-bottom:18px}
+    .rowTitle{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:0 0 10px 0}
+    .rowTitle h2{margin:0;font-size:14px;letter-spacing:.2px;color:rgba(31,41,55,.92)}
+    .hint{font-size:12px;color:rgba(31,41,55,.62)}
+    .scroller{
+      display:flex;gap:12px;overflow-x:auto;padding-bottom:6px;
+      scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;
     }
-    .tag{
-      font-size:11px;
-      padding:6px 8px;
+    .scroller::-webkit-scrollbar{height:8px}
+    .scroller::-webkit-scrollbar-thumb{background:rgba(74,35,65,.18);border-radius:999px}
+
+    .card{
+      min-width:170px;max-width:170px;
+      background:rgba(255,255,255,.92);
+      border:1px solid rgba(31,41,55,.10);
+      border-radius:18px;
+      overflow:hidden;
+      box-shadow:0 8px 18px rgba(0,0,0,.06);
+      scroll-snap-align:start;
+      cursor:pointer;
+      transition:transform .12s ease, box-shadow .12s ease;
+    }
+    .card:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(0,0,0,.08)}
+    .thumb{height:112px;background:#ddd;position:relative}
+    .thumb img{width:100%;height:100%;object-fit:cover;display:block}
+    .badge{
+      position:absolute;left:10px;bottom:10px;
+      background:rgba(0,0,0,.62);
+      color:#fff;
+      padding:6px 9px;
       border-radius:999px;
-      background: rgba(74,35,65,.08);
-      color: rgba(74,35,65,.92);
-      border:1px solid rgba(74,35,65,.16);
+      font-size:11px;
+      backdrop-filter:blur(6px);
     }
-    .tag.coffee{
-      background: rgba(111,78,55,.10);
-      color: rgba(111,78,55,.95);
-      border-color: rgba(111,78,55,.18);
-    }
+    .info{padding:10px 10px 12px 10px}
+    .name{font-weight:900;font-size:13px;line-height:1.15;margin:0}
+    .price{margin-top:6px;font-weight:950;color:var(--wine);font-size:13px}
 
-    .empty{
-      padding:18px;
-      border-radius: var(--radius);
-      background: rgba(255,255,255,.75);
-      border:1px dashed rgba(31,41,55,.16);
-      color:rgba(31,41,55,.70);
+    /* MODAL */
+    .modal{
+      position:fixed; inset:0;
+      display:none;
+      align-items:flex-end;
+      justify-content:center;
+      background:rgba(0,0,0,.45);
+      z-index:999;
     }
+    .sheet{
+      width:min(560px, 100%);
+      background:#fff;
+      border-radius:22px 22px 0 0;
+      overflow:hidden;
+      box-shadow:0 24px 70px rgba(0,0,0,.28);
+    }
+    .sheetImg{height:240px;background:#ddd}
+    .sheetImg img{width:100%;height:100%;object-fit:cover;display:block}
+    .sheetBody{padding:14px 16px 16px 16px}
+    .sheetTop{display:flex;gap:10px;justify-content:space-between;align-items:flex-start}
+    .sheetTop .t{flex:1}
+    .sheetName{font-weight:950;font-size:16px;margin:0;color:rgba(31,41,55,.95)}
+    .sheetCat{font-size:12px;color:rgba(31,41,55,.62);margin-top:4px}
+    .sheetPrice{font-weight:950;color:var(--wine);white-space:nowrap}
+    .x{
+      border:none;background:rgba(31,41,55,.06);
+      width:38px;height:38px;border-radius:999px;cursor:pointer;
+      font-size:18px;
+    }
+    .sheetDesc{margin-top:10px;font-size:13px;line-height:1.35;color:rgba(31,41,55,.88)}
+    .sheetActions{margin-top:12px;display:flex;gap:10px}
+    .sheetActions .btn{width:100%;justify-content:center}
+    .note{padding:0 16px 16px 16px;color:rgba(31,41,55,.60);font-size:12px}
 
-    .footerNote{
-      margin-top:12px;
-      font-size:12px;
-      color:rgba(31,41,55,.62);
+    /* MOBILE IMPROVEMENTS */
+    @media (max-width:600px){
+      .card{min-width:160px;max-width:160px}
+      .thumb{height:108px}
+      .sheetImg{height:220px}
+      .chip{padding:8px 10px;font-size:12px}
     }
   </style>
 </head>
 
 <body>
+  <div class="wrap">
+    <div class="shell">
 
-  <div class="topbar">
-    <div class="wrap">
-      <div class="frame">
-        <div class="header">
+      <div class="top">
+        <div class="head">
           <div class="brand">
-            <div class="logoImg" id="logoBox" title="FEE-KA 104">
-              <!-- Si NO pones logo real, queda tipográfico -->
-              <div class="logoFallback" id="logoFallback">
-                FEE-KA
-                <small>104 · CAFÉ BAR</small>
-              </div>
+            <div class="logo">
+              <!-- Si luego te pasan el logo real, reemplaza esto por <img src="logo.png" style="width:100%;height:100%;object-fit:cover"> -->
+              <div class="logoTxt">FEE-KA<small>104 · CAFÉ</small></div>
             </div>
-
-            <div class="titles">
-              <h1>Menú Digital</h1>
-              <p>Explora, antoja y disfruta ☕🍰</p>
+            <div>
+              <h1>Menú Digital · Estilo Netflix</h1>
+              <p class="sub" id="momentTxt">Explora por recomendaciones ☕🍰</p>
             </div>
           </div>
 
           <div class="searchRow">
-            <input id="q" class="search" placeholder="Buscar… (ej: capuccino, empanadas, hamburguesa, limonada)" />
+            <input id="q" class="search" placeholder="Buscar… (capuccino, hamburguesa, limonada)" />
           </div>
         </div>
 
-        <div class="chips" id="chips"></div>
-
-        <div class="content">
-          <div class="metaRow">
-            <div class="badge" id="resultCount">0 resultados</div>
-            <div class="ctaRow">
-              <!-- WhatsApp: cambia el número -->
-              <a class="btn primary" id="waBtn" href="#" target="_blank" rel="noopener">📲 WhatsApp</a>
-              <button class="btn" id="topBtn" type="button">⬆️ Ir arriba</button>
-            </div>
-          </div>
-
-          <div class="grid" id="list"></div>
-
-          <div class="footerNote">
-            *Propuesta: se puede añadir fotos, combos, “más vendido” y botón de WhatsApp por mesa.
+        <div class="meta">
+          <div class="pill" id="count">—</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="btn ghost" id="clearSearch">🧹 Limpiar</button>
+            <button class="btn" id="waMain">📲 WhatsApp</button>
           </div>
         </div>
 
+        <div class="catsWrap">
+          <div class="catsTop">
+            <div class="pill" id="catState">Categoría: Todas</div>
+            <div class="hint" id="catsHint">Tip: toca una categoría para filtrar</div>
+          </div>
+          <div class="chips" id="chips"></div>
+        </div>
+      </div>
+
+      <div class="content" id="rows"></div>
+
+      <div class="note">
+        Demo: filas tipo Netflix + recomendación por hora + filtro por categoría + búsqueda + pedido por WhatsApp.
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal" id="modal">
+    <div class="sheet">
+      <div class="sheetImg"><img id="mImg" alt=""></div>
+      <div class="sheetBody">
+        <div class="sheetTop">
+          <div class="t">
+            <p class="sheetName" id="mName"></p>
+            <div class="sheetCat" id="mCat"></div>
+          </div>
+          <div class="sheetPrice" id="mPrice"></div>
+          <button class="x" id="close">✕</button>
+        </div>
+        <div class="sheetDesc" id="mDesc"></div>
+        <div class="sheetActions">
+          <button class="btn" id="mBuy">📲 Pedir por WhatsApp</button>
+        </div>
       </div>
     </div>
   </div>
 
 <script>
-/* =========================
-   1) LOGO REAL (opcional)
-   =========================
-   Si tienes el logo en tu repo, por ejemplo: "logo-feeka.png",
-   deja LOGO_URL = "logo-feeka.png".
-   Si lo tienes en una URL pública, pégala aquí.
-*/
-const LOGO_URL = ""; // EJ: "logo-feeka.png" o "https://.../logo.png"
+/* ========= CONFIG ========= */
+const WHATSAPP_NUMBER = "57XXXXXXXXXX"; // <-- CAMBIA ESTO
+const PLACE_NAME = "FEE-KA 104";
 
-/* WhatsApp del negocio (cambia el número). Formato internacional sin + ni espacios:
-   Colombia: 57 + número. Ej: 573001112233 */
-const WHATSAPP_NUMBER = "57XXXXXXXXXX";
+/* Si quieres QR por mesa: agrega ?mesa=3 al link. Ej:
+   https://tusitio.com/?mesa=3  */
+const params = new URLSearchParams(location.search);
+const MESA = params.get("mesa") ? String(params.get("mesa")) : "";
 
-/* =========================
-   2) CATEGORÍAS
-   ========================= */
-const categories = [
-  {key:"Todos", label:"Todos"},
-  {key:"Desayunos", label:"🥚 Desayunos"},
-  {key:"Omelettes", label:"🍳 Omelettes"},
-  {key:"Café Especialidad", label:"☕ Café Especialidad"},
-  {key:"Café Frío", label:"🧊 Café Frío"},
-  {key:"Café con Licor", label:"🥃 Café con Licor"},
-  {key:"Bebidas Calientes", label:"🍫 Bebidas Calientes"},
-  {key:"Bebidas Frías", label:"🧃 Bebidas Frías"},
-  {key:"Pastelería", label:"🍰 Pastelería"},
-  {key:"Acompañamientos", label:"🥟 Acompañamientos"},
-  {key:"Kids", label:"🧒 Kids"},
-  {key:"Platos Especiales", label:"🍔 Platos Especiales"},
-  {key:"Hervidos", label:"♨️ Hervidos"},
-  {key:"Cocteles", label:"🍹 Cocteles"},
-  {key:"Cervezas", label:"🍺 Cervezas"},
-  {key:"Cerveza Especial", label:"✨ Cerveza Especial"},
-  {key:"Licores Tradicionales", label:"🥃 Licores Trad."},
-  {key:"Licores Importados", label:"🌎 Importados"},
-  {key:"Para Acompañar", label:"🥤 Para Acompañar"},
-];
+/* ========= IMÁGENES DEMO (puedes reemplazar por fotos reales) ========= */
+const IMG = {
+  cafe: "https://images.unsplash.com/photo-1517705008128-361805f42e86?auto=format&fit=crop&w=1200&q=60",
+  cold: "https://images.unsplash.com/photo-1528823872057-9c018a7dbab6?auto=format&fit=crop&w=1200&q=60",
+  pastry:"https://images.unsplash.com/photo-1608198093002-ad4e005484ec?auto=format&fit=crop&w=1200&q=60",
+  food: "https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=1200&q=60",
+  nachos:"https://images.unsplash.com/photo-1604908177522-4297c7c1e05a?auto=format&fit=crop&w=1200&q=60",
+  cocktail:"https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=1200&q=60",
+  beer:"https://images.unsplash.com/photo-1532635202-8b7b5f5a0a8f?auto=format&fit=crop&w=1200&q=60"
+};
 
-/* =========================
-   3) ITEMS DEL MENÚ (completo)
-   Basado en tu PDF
-   ========================= */
-const items = [
-  // DESAYUNOS (pág. 1)
-  {cat:"Desayunos", name:"Tradicional", desc:"Huevos al gusto, café americano, tostadas de pan.", price:"$10.000", tags:["Clásico"]},
-  {cat:"Desayunos", name:"Campesino", desc:"Huevos al gusto, papa, café de antaño y un pan de maíz calentito.", price:"$13.000", tags:["Recomendado"]},
-  {cat:"Desayunos", name:"Huevos Rancheros", desc:"Tocineta, salchicha, huevos, guacamole, café americano y pan de maíz.", price:"$15.000", tags:["Más pedido"]},
-  {cat:"Desayunos", name:"FEE-KA Pancakes", desc:"2 pancakes, huevos revueltos, banano en julianas, mermelada o miel y café americano.", price:"$15.000", tags:["Dulce"]},
-
-  // OMELETTES (pág. 1)
-  {cat:"Omelettes", name:"Jamón y Queso", desc:"Relleno de jamón y queso, papas a la francesa. Incluye americano o capuchino.", price:"$12.000"},
-  {cat:"Omelettes", name:"Azteca", desc:"Carne desmechada, maíz tierno, chile, queso mozzarella, papas a la francesa. Incluye americano o capuchino.", price:"$16.000"},
-  {cat:"Omelettes", name:"Sándwich Omelette", desc:"Pollo desmechado, queso mozzarella, lechuga y tomate. Incluye americano o capuchino.", price:"$16.000"},
-
-  // CAFÉ DE ESPECIALIDAD (pág. 2)
-  {cat:"Café Especialidad", name:"Espresso", desc:"La esencia pura de café, intenso y aromático.", price:"$5.000", tags:["Café"]},
-  {cat:"Café Especialidad", name:"Americano", desc:"Suave y equilibrado; café de especialidad con agua caliente.", price:"$5.000", tags:["Café"]},
-  {cat:"Café Especialidad", name:"Macchiato", desc:"Espresso marcado con una nube de leche espumada.", price:"$5.000", tags:["Café"]},
-  {cat:"Café Especialidad", name:"Macaccino", desc:"Café de especialidad con la dulzura del chocolate y leche.", price:"$7.000", tags:["Chocolate"]},
-  {cat:"Café Especialidad", name:"Latte", desc:"Espresso suave y aterciopelado con leche vaporizada.", price:"$7.000"},
-  {cat:"Café Especialidad", name:"Café Antaño", desc:"Café con panela y especias tradicionales.", price:"$6.000", tags:["De la casa","coffee"]},
-  {cat:"Café Especialidad", name:"Capuccino Aldeano", desc:"A base de miel de panela y especias.", price:"$7.000"},
-  {cat:"Café Especialidad", name:"Café Bombón", desc:"Espresso con leche condensada y toque especiado.", price:"$6.000"},
-  {cat:"Café Especialidad", name:"Capuccino", desc:"Equilibrado: espresso + leche vaporizada cremosa.", price:"$7.000"},
-  {cat:"Café Especialidad", name:"Capuccino Vienés", desc:"Espresso intenso con leche vaporizada y crema batida.", price:"$8.000"},
-  {cat:"Café Especialidad", name:"Capuccino con Esencia", desc:"Vainilla, amaretto, macadamia, avellana o caramelo.", price:"$11.000", tags:["Premium"]},
-
-  // BEBIDAS FRÍAS DE CAFÉ (pág. 2)
-  {cat:"Café Frío", name:"Latte Frío", desc:"Suave y refrescante, tonalidad cremosa.", price:"$8.000"},
-  {cat:"Café Frío", name:"Orange Coffee", desc:"Espresso con jugo de naranja cítrico y sorprendente.", price:"$9.000", tags:["Nuevo"]},
-  {cat:"Café Frío", name:"Granizado de Café", desc:"Café helado con leche fría y hielo frappeado.", price:"$12.000"},
-  {cat:"Café Frío", name:"Limonada de Café", desc:"La acidez del limón con el carácter del café.", price:"$10.000"},
-  {cat:"Café Frío", name:"Café Affogato", desc:"Helado de vainilla con un shot caliente de café.", price:"$11.000"},
-  {cat:"Café Frío", name:"Malteada de Café", desc:"Combinación cremosa y vibrante.", price:"$14.000"},
-
-  // BEBIDAS DE CAFÉ CON LICOR (pág. 2 y 7)
-  {cat:"Café con Licor", name:"Carajillo", desc:"Espresso combinado con licor.", price:"$18.000"},
-  {cat:"Café con Licor", name:"Irish Coffee", desc:"Mezcla con whisky.", price:"$25.000"},
-  {cat:"Café con Licor", name:"Baileys Coffee", desc:"Mezclado con Baileys.", price:"$25.000"},
-  {cat:"Café con Licor", name:"Blue Coffee", desc:"Con Blue Curaçao.", price:"$22.000"},
-
-  // BEBIDAS CALIENTES (pág. 3)
-  {cat:"Bebidas Calientes", name:"Chocolate Clásico", desc:"", price:"$9.000"},
-  {cat:"Bebidas Calientes", name:"Chocolate FEE-KA", desc:"", price:"$11.000"},
-  {cat:"Bebidas Calientes", name:"Chocolate Cookies Fusión", desc:"Variedad de galletas, chocolate burbuja.", price:"$15.000"},
-  {cat:"Bebidas Calientes", name:"Milo", desc:"", price:"$9.000"},
-  {cat:"Bebidas Calientes", name:"Té", desc:"", price:"$6.000"},
-  {cat:"Bebidas Calientes", name:"Aromática Natural", desc:"", price:"$5.000"},
-  {cat:"Bebidas Calientes", name:"Aromática de Frutos Rojos", desc:"", price:"$8.000"},
-
-  // BEBIDAS FRÍAS (pág. 3)
-  {cat:"Bebidas Frías", name:"Coca-Cola Vainilla", desc:"Coca-Cola con helado.", price:"$15.000"},
-  {cat:"Bebidas Frías", name:"Jugo Natural en Agua", desc:"", price:"$7.000"},
-  {cat:"Bebidas Frías", name:"Jugo Natural en Leche", desc:"", price:"$10.000"},
-  {cat:"Bebidas Frías", name:"Limonada Natural", desc:"", price:"$7.000"},
-  {cat:"Bebidas Frías", name:"Limonada Imperial", desc:"", price:"$9.000"},
-  {cat:"Bebidas Frías", name:"Limonada de Hierbabuena", desc:"", price:"$9.000"},
-  {cat:"Bebidas Frías", name:"Limonada Cerezada", desc:"", price:"$10.000"},
-  {cat:"Bebidas Frías", name:"Limonada de Coco", desc:"", price:"$10.000"},
-  {cat:"Bebidas Frías", name:"Limonada de Mango", desc:"", price:"$10.000"},
-  {cat:"Bebidas Frías", name:"Granizado de Frutas", desc:"", price:"$11.000"},
-  {cat:"Bebidas Frías", name:"Sodas Italianas", desc:"Frutos rojos, amarillos y sandía.", price:"$15.000"},
-  {cat:"Bebidas Frías", name:"Malteada", desc:"Fresa, vainilla, oreo.", price:"$13.000"},
-  {cat:"Bebidas Frías", name:"Agua Panela", desc:"Caliente o fría.", price:"$6.000"},
-  {cat:"Bebidas Frías", name:"Botella de Agua", desc:"", price:"$4.000"},
-  {cat:"Bebidas Frías", name:"Té Helado", desc:"", price:"$7.000"},
-  {cat:"Bebidas Frías", name:"Gaseosa Personal", desc:"", price:"$5.000"},
-
-  // PASTELERÍA (pág. 4)
-  {cat:"Pastelería", name:"Porción de Torta Red Velvet", desc:"", price:"$11.000"},
-  {cat:"Pastelería", name:"Porción de Torta Mazorca", desc:"", price:"$8.000"},
-  {cat:"Pastelería", name:"Porción de Torta Naranja", desc:"", price:"$6.000"},
-  {cat:"Pastelería", name:"Porción Mantecadas", desc:"", price:"$10.000"},
-  {cat:"Pastelería", name:"Adición de Topping", desc:"Mermelada, arequipe, leche condensada.", price:"$10.000"},
-  {cat:"Pastelería", name:"Rollito de Canela", desc:"", price:"$8.000"},
-  {cat:"Pastelería", name:"Porción de Galletas", desc:"", price:"$8.000"},
-  {cat:"Pastelería", name:"Croissant Relleno", desc:"Crema de pistacho, frutos rojos, chocolate y queso.", price:"$8.000"},
-  {cat:"Pastelería", name:"Pan Media Luna", desc:"Fresas con Nutella o tocineta y queso.", price:"$12.000"},
-
-  // ACOMPAÑAMIENTOS (pág. 4)
-  {cat:"Acompañamientos", name:"Porción de Empanadas x8", desc:"", price:"$12.000"},
-  {cat:"Acompañamientos", name:"Media Porción Empanadas x4", desc:"", price:"$6.000"},
-  {cat:"Acompañamientos", name:"Empanada de Pollo en Hojaldre", desc:"", price:"$4.000"},
-  {cat:"Acompañamientos", name:"Sándwich Sencillo Jamón y Queso", desc:"", price:"$7.000"},
-
-  // KIDS (pág. 4)
-  {cat:"Kids", name:"Capuccino Fee-kids", desc:"", price:"$11.000"},
-  {cat:"Kids", name:"Moca Fee-kids", desc:"", price:"$12.000"},
-  {cat:"Kids", name:"Submarino M&M", desc:"Leche texturizada y chocolates M&M.", price:"$10.000"},
-  {cat:"Kids", name:"Submarino Burbuja", desc:"Leche texturizada y burbujas de chocolate.", price:"$10.000"},
-  {cat:"Kids", name:"Chocolate Fee-kids", desc:"Chantillí, grajeas de colores y masmelos.", price:"$13.000"},
-  {cat:"Kids", name:"Copa de Helado", desc:"", price:"$12.000"},
-  {cat:"Kids", name:"Brownie con Helado", desc:"", price:"$14.000"},
-  {cat:"Kids", name:"Granizado Junior de Frutas", desc:"", price:"$9.000"},
-  {cat:"Kids", name:"Helado Crazy", desc:"Chocolate líquido, leche condensada, 2 bolas de helado, gomas, chantillí, masmelos, grajeas, chocolatina y barquillo.", price:"$18.000", tags:["Más pedido"]},
-
-  // PLATOS ESPECIALES (pág. 5-6)
-  {cat:"Platos Especiales", name:"Picada al Barril (2 personas)", desc:"Carnes res/cerdo/pollo/chorizo, papa criolla, yuca, plátano, guacamole y ají.", price:"$35.000", tags:["Para compartir"]},
-  {cat:"Platos Especiales", name:"Picada Grande al Barril", desc:"Carnes res/cerdo/pollo/chorizo, papa criolla, yuca, plátano, guacamole y ají.", price:"$70.000", tags:["Para compartir"]},
-  {cat:"Platos Especiales", name:"Sándwich al Barril", desc:"Pan con carnes mixtas, vegetales y salsa de ajo. Papas a la francesa.", price:"$22.000"},
-  {cat:"Platos Especiales", name:"Chinchulines de la Casa", desc:"Preparados con el sello de la casa. Papa criolla, arepa y chorizo.", price:"$30.000"},
-  {cat:"Platos Especiales", name:"Salchipapa Tradicional", desc:"Papas a la francesa, salchichas crujientes y aderezo de la casa.", price:"$12.000"},
-  {cat:"Platos Especiales", name:"Salchipapa Gratinada", desc:"Papas, carnes al barril, chorizo artesanal, queso doble crema, plátano caramelizado y aderezo.", price:"$28.000"},
-  {cat:"Platos Especiales", name:"Shawarma", desc:"Pollo marinado, vegetales crocantes y salsa cremosa de ajo.", price:"$20.000"},
-  {cat:"Platos Especiales", name:"Nachos al Barril", desc:"Totopos con carnes, frijol y quesos derretidos.", price:"$23.000"},
-  {cat:"Platos Especiales", name:"Hamburguesa Tradicional", desc:"Pan artesanal, carne al barril, queso y papas a la francesa.", price:"$18.000"},
-  {cat:"Platos Especiales", name:"Hamburguesa al Barril (tocineta y café)", desc:"Carne al barril, queso doble crema, papas y salsa de tocineta y café.", price:"$24.000", tags:["Recomendado"]},
-  {cat:"Platos Especiales", name:"Chorizos al Barril", desc:"Chorizos artesanales, salchicha picante y papa al vapor.", price:"$28.000"},
-  {cat:"Platos Especiales", name:"Filete al Barril (cerdo o pollo)", desc:"Papa al vapor, plátano caramelizado y aderezo de la casa.", price:"$38.000"},
-  {cat:"Platos Especiales", name:"Ceviche de Chicharrón", desc:"Chicharrón crocante con patacones.", price:"$21.000"},
-  {cat:"Platos Especiales", name:"Alitas en Salsa Teriyaki (10)", desc:"Salsa dulce con miel, jengibre y soya. Papas y salsa de la casa.", price:"$26.000"},
-  {cat:"Platos Especiales", name:"Alitas Picantes (10)", desc:"Bañadas en salsa picante. Papas y salsa de la casa.", price:"$28.000"},
-
-  // HERVIDOS GOURMET (pág. 7)
-  {cat:"Hervidos", name:"Hervido Zanahoria y Uchuva", desc:"(Jarra o copa)", price:"Copa $14.000 · Jarra (mix) $60.000"},
-  {cat:"Hervidos", name:"Hervido Vinotinto y Flor de Jamaica", desc:"(Jarra o copa)", price:"Copa $14.000 · Jarra (mix) $60.000"},
-  {cat:"Hervidos", name:"Hervido Espresso Especiado", desc:"(Jarra o copa)", price:"Copa $14.000 · Jarra (mix) $60.000"},
-  {cat:"Hervidos", name:"Vino Vintage Calcifer (Vino caliente)", desc:"", price:"Copa $12.000 · Jarra $30.000"},
-
-  // COCTELES (pág. 7)
-  {cat:"Cocteles", name:"Daiquiri de Mango", desc:"", price:"$18.000"},
-  {cat:"Cocteles", name:"Eclipse Azul", desc:"", price:"$20.000"},
-  {cat:"Cocteles", name:"Adiós Motherfucker", desc:"", price:"$20.000"},
-  {cat:"Cocteles", name:"Pantera Rosa", desc:"", price:"$18.000"},
-  {cat:"Cocteles", name:"Cuba Libre", desc:"", price:"$15.000"},
-  {cat:"Cocteles", name:"Mojito de Kiwi", desc:"", price:"$20.000"},
-  {cat:"Cocteles", name:"Cósmico Verde", desc:"", price:"$11.000"},
-  {cat:"Cocteles", name:"Cósmico Rosado", desc:"", price:"$11.000"},
-  {cat:"Cocteles", name:"Pecera Borracha", desc:"", price:"$30.000"},
-
-  // CERVEZAS (pág. 7)
-  {cat:"Cervezas", name:"Club Colombia", desc:"", price:"$10.000"},
-  {cat:"Cervezas", name:"Corona", desc:"", price:"$10.000"},
-  {cat:"Cervezas", name:"Budweiser", desc:"", price:"$10.000"},
-  {cat:"Cervezas", name:"Stella Artois", desc:"", price:"$10.000"},
-  {cat:"Cervezas", name:"Smirnoff Ice", desc:"", price:"$12.000"},
-
-  // CERVEZA ESPECIAL (pág. 7)
-  {cat:"Cerveza Especial", name:"Cerveza Aurora", desc:"", price:"$16.000"},
-  {cat:"Cerveza Especial", name:"Cerveza Susurro", desc:"", price:"$18.000"},
-  {cat:"Cerveza Especial", name:"Cerveza Escarlata", desc:"", price:"$18.000"},
-  {cat:"Cerveza Especial", name:"Cerveza Cáliz", desc:"", price:"$15.000"},
-  {cat:"Cerveza Especial", name:"Destello Especiado", desc:"", price:"$10.000"},
-
-  // LICORES TRADICIONALES (pág. 7)
-  {cat:"Licores Tradicionales", name:"Aguardiente Nariño", desc:"Botella", price:"$120.000"},
-  {cat:"Licores Tradicionales", name:"Aguardiente Antioqueño", desc:"Botella", price:"$120.000"},
-  {cat:"Licores Tradicionales", name:"Aguardiente Amarillo", desc:"Botella", price:"$130.000"},
-  {cat:"Licores Tradicionales", name:"Ron", desc:"Botella", price:"$120.000"},
-  {cat:"Licores Tradicionales", name:"Ron Edición Especial", desc:"Botella", price:"$140.000"},
-  {cat:"Licores Tradicionales", name:"Brandy con Leche", desc:"Copa", price:"$15.000"},
-
-  // LICORES IMPORTADOS (pág. 8)
-  {cat:"Licores Importados", name:"Los Cuates (personal)", desc:"", price:"$11.000"},
-  {cat:"Licores Importados", name:"Vodka Absolut", desc:"Botella", price:"$200.000"},
-  {cat:"Licores Importados", name:"Vodka Absolut Citron", desc:"Botella", price:"$200.000"},
-  {cat:"Licores Importados", name:"Vodka Smirnoff Tamarindo y Lulo", desc:"Botella", price:"$150.000"},
-  {cat:"Licores Importados", name:"Tequila José Cuervo Tradicional", desc:"Botella", price:"$200.000"},
-  {cat:"Licores Importados", name:"Tequila José Cuervo", desc:"Botella", price:"$160.000"},
-  {cat:"Licores Importados", name:"Tequila El Jimador", desc:"Botella", price:"$200.000"},
-  {cat:"Licores Importados", name:"Tequila El Patrón", desc:"Botella", price:"$530.000"},
-  {cat:"Licores Importados", name:"Tequila Don Julio", desc:"Botella", price:"$430.000"},
-  {cat:"Licores Importados", name:"Tequila Don Julio 70", desc:"Botella", price:"$630.000"},
-  {cat:"Licores Importados", name:"Tequila Don Julio Reposado", desc:"Botella", price:"$430.000"},
-  {cat:"Licores Importados", name:"Tequila Don Julio Añejo", desc:"Botella", price:"$430.000"},
-  {cat:"Licores Importados", name:"Tequila Olmeca", desc:"Botella", price:"$160.000"},
-  {cat:"Licores Importados", name:"Whisky Buchanans Deluxe 12", desc:"Botella", price:"$280.000"},
-  {cat:"Licores Importados", name:"Whisky Buchanans Master", desc:"Botella", price:"$330.000"},
-  {cat:"Licores Importados", name:"Whisky Buchanans Especial 18", desc:"Botella", price:"$530.000"},
-  {cat:"Licores Importados", name:"Whisky Jack Daniels (todas)", desc:"Botella", price:"$260.000"},
-  {cat:"Licores Importados", name:"Whisky Something Special", desc:"Botella", price:"$150.000"},
-  {cat:"Licores Importados", name:"Whisky Red Label", desc:"Botella", price:"$150.000"},
-  {cat:"Licores Importados", name:"Whisky Chivas Regal", desc:"Botella", price:"$260.000"},
-  {cat:"Licores Importados", name:"Whisky Jägermeister", desc:"Botella", price:"$200.000"},
-  {cat:"Licores Importados", name:"Whisky Ballantines", desc:"Botella", price:"$150.000"},
-  {cat:"Licores Importados", name:"Crema de Whisky Baileys", desc:"Botella", price:"$150.000"},
-  {cat:"Licores Importados", name:"Champaña JP Chenet", desc:"Botella", price:"$150.000"},
-  {cat:"Licores Importados", name:"Vino Casillero del Diablo", desc:"Botella", price:"$150.000"},
-  {cat:"Licores Importados", name:"Vino Gato Negro", desc:"Botella", price:"$140.000"},
-
-  // BEBIDAS PARA ACOMPAÑAR (pág. 8)
-  {cat:"Para Acompañar", name:"Red Bull", desc:"", price:"$12.000"},
-  {cat:"Para Acompañar", name:"Monster", desc:"", price:"$12.000"},
-  {cat:"Para Acompañar", name:"Electrolit", desc:"", price:"$13.000"},
-  {cat:"Para Acompañar", name:"Soda Schweppes", desc:"", price:"$10.000"},
-  {cat:"Para Acompañar", name:"Agua Manantial", desc:"", price:"$8.000"},
-  {cat:"Para Acompañar", name:"Gatorade", desc:"", price:"$10.000"},
-  {cat:"Para Acompañar", name:"Coca-Cola", desc:"", price:"$10.000"},
-];
-
-/* =========================
-   4) UI / LÓGICA
-   ========================= */
-const list = document.getElementById("list");
-const q = document.getElementById("q");
-const chips = document.getElementById("chips");
-const resultCount = document.getElementById("resultCount");
-const waBtn = document.getElementById("waBtn");
-const topBtn = document.getElementById("topBtn");
-
-let state = { cat: "Todos", q: "" };
-
-function applyLogo(){
-  if(!LOGO_URL) return;
-  const box = document.getElementById("logoBox");
-  const fallback = document.getElementById("logoFallback");
-  fallback.style.display = "none";
-  box.innerHTML = `<img src="${LOGO_URL}" alt="Logo FEE-KA 104">`;
+/* ========= HORA INTELIGENTE ========= */
+function getMoment(){
+  const h = new Date().getHours();
+  if(h >= 6 && h < 11) return "mañana";
+  if(h >= 11 && h < 17) return "tarde";
+  return "noche";
 }
+const MOMENTO = getMoment();
+const momentTxt = document.getElementById("momentTxt");
+momentTxt.textContent =
+  MOMENTO === "mañana" ? "Buenos días ☀️ Recomendado: desayunos y café" :
+  MOMENTO === "tarde" ? "Buenas tardes 🌤️ Recomendado: postres y bebidas frías" :
+  "Buenas noches 🌙 Recomendado: platos especiales y cocteles";
 
-function makeChips(){
-  chips.innerHTML = categories.map(c => `
-    <div class="chip ${c.key === state.cat ? "active" : ""}" data-cat="${c.key}">
-      ${c.label}
-    </div>
+/* ========= DATOS (DEMO) =========
+   Luego lo conectamos a tu menú real completo. */
+const products = [
+  {name:"Tradicional", price:"$10.000", cat:"Desayunos", desc:"Huevos al gusto, café americano y tostadas.", img:IMG.cafe, tags:["top","mañana"]},
+  {name:"Huevos Rancheros", price:"$15.000", cat:"Desayunos", desc:"Tocineta, salchicha, huevos, guacamole, café y pan de maíz.", img:IMG.food, tags:["top","mañana"]},
+  {name:"Capuccino con Esencia", price:"$11.000", cat:"Café Especialidad", desc:"Vainilla, amaretto, macadamia, avellana o caramelo.", img:IMG.cafe, tags:["top","mañana","tarde","recomendado"]},
+  {name:"Café Antaño", price:"$6.000", cat:"Café Especialidad", desc:"Panela y especias tradicionales.", img:IMG.cafe, tags:["mañana","tarde","recomendado"]},
+
+  {name:"Latte Frío", price:"$8.000", cat:"Café Frío", desc:"Suave y refrescante.", img:IMG.cold, tags:["mañana","tarde"]},
+  {name:"Orange Coffee", price:"$9.000", cat:"Café Frío", desc:"Espresso con jugo de naranja (sorprendente).", img:IMG.cold, tags:["tarde","nuevo"]},
+  {name:"Affogato", price:"$11.000", cat:"Café Frío", desc:"Helado de vainilla con shot de café.", img:IMG.pastry, tags:["tarde","noche","recomendado"]},
+
+  {name:"Croissant Relleno", price:"$8.000", cat:"Pastelería", desc:"Pistacho, frutos rojos, chocolate o queso.", img:IMG.pastry, tags:["tarde","recomendado"]},
+  {name:"Rollito de Canela", price:"$8.000", cat:"Pastelería", desc:"Perfecto para acompañar café.", img:IMG.pastry, tags:["tarde"]},
+
+  {name:"Limonada de Coco", price:"$10.000", cat:"Bebidas Frías", desc:"Refrescante y cremosa.", img:IMG.cold, tags:["tarde","top"]},
+
+  {name:"Hamburguesa al Barril", price:"$24.000", cat:"Platos Especiales", desc:"Carne al barril, queso doble crema, papas y salsa de tocineta y café.", img:IMG.food, tags:["top","noche"]},
+  {name:"Nachos al Barril", price:"$23.000", cat:"Platos Especiales", desc:"Totopos con carnes, frijol y quesos derretidos.", img:IMG.nachos, tags:["noche","recomendado"]},
+
+  {name:"Pantera Rosa", price:"$18.000", cat:"Cocteles", desc:"Clásico suave y divertido.", img:IMG.cocktail, tags:["noche","top"]},
+  {name:"Mojito de Kiwi", price:"$20.000", cat:"Cocteles", desc:"Refrescante y tropical.", img:IMG.cocktail, tags:["noche"]},
+
+  {name:"Club Colombia", price:"$10.000", cat:"Cervezas", desc:"", img:IMG.beer, tags:["noche"]},
+  {name:"Corona", price:"$10.000", cat:"Cervezas", desc:"", img:IMG.beer, tags:["noche"]},
+];
+
+/* ========= UI ELEMENTS ========= */
+const rows = document.getElementById("rows");
+const q = document.getElementById("q");
+const count = document.getElementById("count");
+const clearSearch = document.getElementById("clearSearch");
+const waMain = document.getElementById("waMain");
+const chips = document.getElementById("chips");
+const catState = document.getElementById("catState");
+
+/* ========= CATEGORY FILTER ========= */
+let ACTIVE_CAT = "Todas";
+
+function uniqueCats(){
+  const set = new Set(products.map(p=>p.cat));
+  return ["Todas", ...Array.from(set).sort((a,b)=>a.localeCompare(b,"es"))];
+}
+function renderChips(){
+  const cats = uniqueCats();
+  chips.innerHTML = cats.map(c => `
+    <button class="chip ${c===ACTIVE_CAT ? "active":""}" data-cat="${c}">
+      ${c==="Todas" ? "📚" : "🍽️"} ${c}
+    </button>
   `).join("");
 
-  chips.querySelectorAll(".chip").forEach(el=>{
-    el.onclick = () => {
-      state.cat = el.dataset.cat;
-      makeChips();
+  chips.querySelectorAll(".chip").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      ACTIVE_CAT = btn.dataset.cat;
+      catState.textContent = "Categoría: " + ACTIVE_CAT;
+      renderChips();
       render();
-    };
+      // scroll suave hacia productos
+      window.scrollTo({top: 0, behavior: "smooth"});
+    });
   });
 }
 
-function render(){
-  const filtered = items.filter(x=>{
-    const byCat = (state.cat === "Todos") || (x.cat === state.cat);
-    const tags = (x.tags || []).join(" ");
-    const s = (x.name + " " + x.desc + " " + x.price + " " + x.cat + " " + tags).toLowerCase();
-    const byQ = !state.q || s.includes(state.q.toLowerCase());
-    return byCat && byQ;
+/* ========= ROW DEFINITIONS (Netflix) ========= */
+function rowDefs(){
+  // Si filtraste categoría, creamos filas más simples para no confundir
+  if(ACTIVE_CAT !== "Todas"){
+    return [
+      {title:"🎬 " + ACTIVE_CAT, subtitle:"Desliza 👈👉", filter:(p)=>p.cat===ACTIVE_CAT},
+      {title:"⭐ Los más pedidos", subtitle:"Lo que más se vende", filter:(p)=>p.cat===ACTIVE_CAT && p.tags.includes("top")},
+      {title:"⏰ Para esta hora", subtitle:"Recomendado automáticamente", filter:(p)=>p.cat===ACTIVE_CAT && p.tags.includes(MOMENTO)},
+    ];
+  }
+
+  return [
+    {title:"⏰ Para esta hora", subtitle:"Recomendado automáticamente", filter:(p)=>p.tags.includes(MOMENTO)},
+    {title:"⭐ Los más pedidos", subtitle:"Lo que más se vende", filter:(p)=>p.tags.includes("top")},
+    {title:"☕ Recomendados de la casa", subtitle:"Perfectos para antojar", filter:(p)=>p.tags.includes("recomendado")},
+    {title:"🍰 Postres & Café", subtitle:"Dulce + café", filter:(p)=>["Pastelería","Café Especialidad","Café Frío"].includes(p.cat)},
+    {title:"🍔 Platos Especiales", subtitle:"Para compartir", filter:(p)=>p.cat==="Platos Especiales"},
+    {title:"🍹 Noche", subtitle:"Cocteles, cervezas y más", filter:(p)=>p.tags.includes("noche")},
+  ];
+}
+
+/* ========= MODAL ========= */
+const modal = document.getElementById("modal");
+const mImg = document.getElementById("mImg");
+const mName = document.getElementById("mName");
+const mCat = document.getElementById("mCat");
+const mPrice = document.getElementById("mPrice");
+const mDesc = document.getElementById("mDesc");
+const mBuy = document.getElementById("mBuy");
+const closeBtn = document.getElementById("close");
+
+function openProduct(p){
+  mImg.src = p.img;
+  mName.textContent = p.name;
+  mCat.textContent = p.cat + (MESA ? ` · Mesa ${MESA}` : "");
+  mPrice.textContent = p.price;
+  mDesc.textContent = p.desc || "—";
+
+  const mesaTxt = MESA ? ` (Mesa ${MESA})` : "";
+  const msg = encodeURIComponent(`Hola 👋 Estoy en ${PLACE_NAME}${mesaTxt}. Quiero pedir: ${p.name} (${p.price}).`);
+  mBuy.onclick = ()=> window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, "_blank");
+
+  modal.style.display = "flex";
+}
+closeBtn.onclick = ()=> modal.style.display = "none";
+modal.addEventListener("click", (e)=>{ if(e.target === modal) modal.style.display="none"; });
+
+/* ========= RENDER HELPERS ========= */
+function cardHTML(p){
+  return `
+    <div class="card">
+      <div class="thumb">
+        <img src="${p.img}" alt="">
+        <div class="badge">${p.cat}</div>
+      </div>
+      <div class="info">
+        <p class="name">${p.name}</p>
+        <div class="price">${p.price}</div>
+      </div>
+    </div>
+  `;
+}
+function bindCards(list, containerId){
+  const container = document.getElementById(containerId);
+  if(!container) return;
+  Array.from(container.querySelectorAll(".card")).forEach((el, i)=>{
+    el.onclick = ()=> openProduct(list[i]);
   });
+}
 
-  resultCount.textContent = `${filtered.length} resultado${filtered.length === 1 ? "" : "s"}`;
+/* ========= MAIN RENDER ========= */
+function render(){
+  const term = (q.value || "").trim().toLowerCase();
 
-  list.innerHTML = filtered.map(x => {
-    const tags = (x.tags || []);
-    const tagHtml = tags.length
-      ? `<div class="tagRow">${tags.map(t=>{
-          const coffee = (t.toLowerCase().includes("casa") || t.toLowerCase().includes("café") || t.toLowerCase().includes("coffee"));
-          return `<span class="tag ${coffee ? "coffee":""}">${t}</span>`;
-        }).join("")}</div>`
-      : "";
+  // BÚSQUEDA: muestra una sola fila
+  if(term){
+    const filtered = products.filter(p=>{
+      // respeta categoría si está activa
+      if(ACTIVE_CAT !== "Todas" && p.cat !== ACTIVE_CAT) return false;
+      const s = (p.name + " " + p.cat + " " + (p.desc||"") + " " + p.price).toLowerCase();
+      return s.includes(term);
+    });
 
-    return `
-      <div class="card">
-        <div class="cardTop">
-          <div>
-            <div class="name">${x.name}</div>
-            <div class="cat">${x.cat}</div>
-          </div>
-          <div class="price">${x.price}</div>
+    count.textContent = `${filtered.length} resultado(s)`;
+    rows.innerHTML = `
+      <div class="row">
+        <div class="rowTitle">
+          <h2>🔎 Resultados</h2>
+          <div class="hint">Desliza 👈👉</div>
         </div>
-        ${x.desc ? `<div class="desc">${x.desc}</div>` : ``}
-        ${tagHtml}
+        <div class="scroller" id="searchRow">${filtered.map(cardHTML).join("")}</div>
       </div>
     `;
-  }).join("") || `<div class="empty">No encontré resultados. Prueba con otra palabra.</div>`;
+    bindCards(filtered, "searchRow");
+    return;
+  }
+
+  // NORMAL: filas Netflix
+  const defs = rowDefs();
+  // Para contador: muestra cuántos hay en la categoría (si aplica)
+  const baseCount = (ACTIVE_CAT==="Todas")
+    ? products.length
+    : products.filter(p=>p.cat===ACTIVE_CAT).length;
+
+  count.textContent = `${baseCount} item(s)`;
+
+  rows.innerHTML = defs.map((r, idx)=>{
+    const list = products.filter(r.filter);
+    if(!list.length) return "";
+    return `
+      <div class="row">
+        <div class="rowTitle">
+          <h2>${r.title}</h2>
+          <div class="hint">${r.subtitle}</div>
+        </div>
+        <div class="scroller" id="row_${idx}">
+          ${list.map(cardHTML).join("")}
+        </div>
+      </div>
+    `;
+  }).join("");
+
+  defs.forEach((r, idx)=>{
+    const list = products.filter(r.filter);
+    if(!list.length) return;
+    bindCards(list, `row_${idx}`);
+  });
 }
 
-function setupWhatsApp(){
-  const base = `https://wa.me/${WHATSAPP_NUMBER}`;
-  const msg = encodeURIComponent("Hola 👋 Estoy viendo el menú digital de FEE-KA 104. ¿Me ayudas con un pedido?");
-  waBtn.href = `${base}?text=${msg}`;
-}
+/* ========= ACTIONS ========= */
+clearSearch.onclick = ()=> { q.value=""; render(); };
+q.addEventListener("input", render);
 
-q.addEventListener("input", e => { state.q = e.target.value; render(); });
-topBtn.addEventListener("click", () => window.scrollTo({top:0, behavior:"smooth"}));
+waMain.onclick = ()=>{
+  const mesaTxt = MESA ? ` (Mesa ${MESA})` : "";
+  const msg = encodeURIComponent(`Hola 👋 Estoy en ${PLACE_NAME}${mesaTxt}. ¿Me ayudas con un pedido?`);
+  window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, "_blank");
+};
 
-applyLogo();
-makeChips();
-setupWhatsApp();
+/* INIT */
+renderChips();
 render();
 </script>
-
 </body>
 </html>
+
+
